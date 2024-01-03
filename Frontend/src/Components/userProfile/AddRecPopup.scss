@@ -1,0 +1,15 @@
+.add-rec-popup-btn{
+    margin-right: 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: #9F8FFF;
+    height:fit-content;
+    width: fit-content;
+    color:white;
+}
+.add-rec-popup-btn:hover{
+    background-color: #ddd;
+    transition: background-color 0.3s ease;
+}

@@ -1,0 +1,79 @@
+.main_commentBox{
+  background-color: rgb(255, 255, 255);
+  width:100%;
+ 
+ 
+  border: 1px solid #ccc;
+  padding: 10px;
+  border-radius: 8px;
+ 
+}
+
+.comment-input {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.comment-input input {
+  flex-grow: 1;
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin-right: 10px;
+}
+
+.comment-input button {
+  background-color: #9F8FFF;
+  color: black;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  padding: 5px 10px;
+}
+
+.comments {
+  margin: 10px 0;
+  max-height:20rem;
+  overflow-y: auto; 
+  transition: max-height 0.3s ease-in-out;
+
+/* Custom scrollbar styles for WebKit browsers */
+&::-webkit-scrollbar {
+  width: 10px; /* Set the width of the scrollbar */
+}
+
+&::-webkit-scrollbar-thumb {
+  background-color: #87b3f9; /* Set the color of the scrollbar thumb */
+  border-radius: 5px; /* Round the corners of the thumb */
+}
+
+&::-webkit-scrollbar-track {
+  background-color: #f0f0f0; /* Set the color of the scrollbar track */
+  border-radius: 5px; /* Round the corners of the track */
+}
+
+&::-webkit-scrollbar-button {
+  display: none; /* Hide the scrollbar buttons (arrows) */
+}
+}
+
+
+
+.comment {
+  background-color: #f2f2f2;
+  padding: 8px;
+  border-radius: 4px;
+  margin-bottom: 10px;
+}
+
+/* Add animations for improved user experience */
+.comment-input button:hover {
+  background-color: #ddd;
+  transition: background-color 0.3s ease;
+}
+
+.comment:hover {
+  background-color: #e0e0e0;
+  transition: background-color 0.3s ease;
+}

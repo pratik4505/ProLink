@@ -1,0 +1,84 @@
+.nav-bar img{
+    width: 60px;
+}
+
+.navbar-container {
+  background-color: #9F8FFF; /* Background color for the navbar */
+  padding: 10px;
+}
+
+.nav-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.link-bar {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: #fff; /* Text color for the links */
+  text-decoration: none;
+}
+
+.link-bar a {
+  text-decoration: none;
+  color: #fff; /* Text color for the links */
+}
+
+.react-icons {
+  margin-bottom: 5px;
+}
+.menu-icon {
+    cursor: pointer;
+    display: none; /* Hide the menu icon by default for larger screens */
+  }
+  
+  .bar {
+    width: 30px;
+    height: 3px;
+    background-color: #fff;
+    margin: 6px 0;
+    transition: 0.4s;
+  }
+  @media (max-width: 582px) {
+    .menu-icon {
+      display: block; /* Show the menu icon for small screens */
+    }
+  
+    .nav-bar {
+      flex-direction: column; /* Change to column layout for small screens */
+      text-align: center; /* Center the text in each link */
+      position: relative;
+      
+    }
+    .img-ham{
+        width:100%;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+    }
+  
+    .link-bar {
+      display: none; /* Hide the links by default for small screens */
+      margin-bottom: 10px; /* Add some spacing between the links */
+    }
+  
+    .menu-icon {
+      display: block; /* Show the menu icon for small screens */
+      z-index: 1;
+    }
+  
+    .menu-icon:hover .bar {
+      background-color: #ddd; /* Change color on hover if desired */
+    }
+  
+    .show-menu {
+      .link-bar {
+        display: block; /* Show the links when the menu is active */
+      }
+    }
+  }

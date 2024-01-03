@@ -1,0 +1,154 @@
+.update-image-profile{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: #9F8FFF;
+    height:fit-content;
+    width: fit-content;
+    color:white;
+}
+.update-image-profile:hover{
+  background-color: #ddd;
+  transition: background-color 0.3s ease;
+}
+.update-details-btn{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: #9F8FFF;
+    height:fit-content;
+    width: fit-content;
+    color:white;
+}
+.update-details-btn:hover{
+    background-color: #ddd;
+    transition: background-color 0.3s ease;
+}
+.update-about-btn{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: #9F8FFF;
+    height:fit-content;
+    width: fit-content;
+    color:white;
+}
+.update-about-btn:hover{
+    background-color: #ddd;
+    transition: background-color 0.3s ease;
+}
+.add-post-btn{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: #9F8FFF;
+    height:fit-content;
+    width: fit-content;
+    color:white;
+}
+.add-post-btn:hover{
+    background-color: #ddd;
+    transition: background-color 0.3s ease;
+}
+.profile-connect-btn{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: #9F8FFF;
+    height:fit-content;
+    width: fit-content;
+}
+.profile-connect-btn:hover{
+    background-color: #ddd;
+    transition: background-color 0.3s ease;
+}
+.profile-connecting-btn{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: #9F8FFF;
+    height:fit-content;
+    width: fit-content;
+}
+.profile-connecting-btn:hover{
+    background-color: #ddd;
+    transition: background-color 0.3s ease;
+}
+.message-Request-btn{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: #9F8FFF;
+    height:fit-content;
+    width: fit-content;
+}
+.message-Request-btn:hover{
+    background-color: #ddd;
+    transition: background-color 0.3s ease;
+}
+.message-Requestsent-btn{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: #9F8FFF;
+    height:fit-content;
+    width: fit-content;
+}
+.message-Request-btn:hover{
+    background-color: #ddd;
+    transition: background-color 0.3s ease;
+}
+.about-section{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin-left:1.8%;
+    margin-right: 1.7%;
+    
+}
+.header-section{
+    display: flex;
+    flex-direction: row;
+}
+.All-btns-profile{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+.profile-main-header-section{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+.summary-profile{
+    margin-bottom: 15px;
+}
+.full-body-profile{
+    margin-right:10%;
+    margin-left: 10%;
+}
+.footer-profile-page{
+    margin-bottom: 50px;
+}
+.experience-header-profile{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+.last-profile.ele{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}

@@ -1,0 +1,242 @@
+.jobs {
+    display: flex;
+    height: 100vh;
+    justify-content: space-between;
+    
+}
+.jobs-search {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    width:50%;
+}
+.jobs-search input {
+    margin-bottom: 25px;
+    width:75%;
+    padding: 5px 20px;
+    height:70px;
+    font-size: 30px;
+    background-color: #f5f5f5;
+}
+.jobs-search button{
+    padding: 5px 10px;
+    width:10%;
+    cursor: pointer;
+}
+.jobs-details {
+    flex: 1;
+    padding: 20px;
+}
+/* Additional styles for better user experience */
+.jobs-search input:hover {
+    background-color: #f5f5f5;
+}
+.jobs-header{
+    display: flex;
+    align-items: center;
+}
+.h1-jobs{
+    padding-right: 20px;
+    font-size: 90px;
+}
+.btn{
+    background-color: #9F8FFF;
+    border: #9F8FFF;
+    height:50%;
+    margin-right: 20px;
+}
+button.btn.btn-primary {
+    width: 12%;
+}
+.btn-primary:hover {
+    background-color: #fff;
+    color: #000;
+}
+.jobs-header{
+    margin-bottom: 20px;
+}
+.all_jobs{
+    display: flex;
+    flex-direction: column;
+    width:50%;
+    margin-top: 40px;
+}
+//media query added for responsiveness
+@media (max-width:1248px) and (min-width:960px){
+    .h1-jobs{
+        font-size: 60px;
+    }
+    .jobs-search input {
+        height:60px;
+        font-size: 22.5px;
+    }
+    button.btn.btn-primary {
+        width: 14%;
+    }
+}
+@media (max-width:960px) and (min-width:541px){
+    /*.h1-jobs{
+        font-size: 50px;
+        padding-right: 15px;
+    }
+    .jobs-search input {
+        height:45px;
+        font-size: 17.5px;
+        margin-bottom: 15px;
+    }
+    button.btn.btn-primary {
+        width: 15%;
+    }
+    .btn{
+        height:60%;
+        margin-right: 10px;
+    }
+    .all-jobs-btn{
+        font-size: small;
+    }
+    .search-jobs-btn{
+        font-size: small;
+    }
+    */
+    .h1-jobs{
+        font-size: 60px;
+        margin-right: auto;
+    }
+    button.btn.btn-primary {
+        width: 14%;
+    }
+    .jobs{
+       display: flex;
+       flex-direction: column; 
+    }
+    .jobs-search{
+        width:100%;
+        justify-content: center;
+        align-items: center;
+    }
+    .jobs-header{
+        display: flex;
+        flex-direction: row;
+        width: 100%;
+    }
+    .jobs-search input {
+        height:50px;
+        font-size: 17px;
+    }
+    .all_jobs{
+        width:100%;
+        justify-content: center;
+        align-items: center;
+        
+    }
+}
+@media (max-width:541px) {
+    /*.h1-jobs{
+        font-size: 50px;
+        padding-right: 15px;
+    }
+    .jobs-search input {
+        height:45px;
+        font-size: 17.5px;
+        margin-bottom: 15px;
+    }
+    button.btn.btn-primary {
+        width: 15%;
+    }
+    .btn{
+        height:60%;
+        margin-right: 10px;
+    }
+    .all-jobs-btn{
+        font-size: small;
+    }
+    .search-jobs-btn{
+        font-size: small;
+    }
+    */
+    .h1-jobs{
+        font-size: 30px;
+        margin-right: auto;
+    }
+    button.btn.btn-primary {
+        width: 17%;
+    }
+    .jobs{
+       display: flex;
+       flex-direction: column; 
+    }
+    .jobs-search{
+        width:100%;
+        justify-content: center;
+        align-items: center;
+    }
+    .jobs-header{
+        display: flex;
+        flex-direction: row;
+        width: 100%;
+    }
+    .jobs-search input {
+        height:35px;
+        font-size: 13px;
+    }
+    .all_jobs{
+        width:100%;
+        justify-content: center;
+        align-items: center; 
+    }
+    .btn{
+        margin-right: 10px;
+        font-size: smaller;
+    }
+}
+
+/*@media (max-width:801px) and (min-width:607px){
+    .h1-jobs{
+        font-size: 35px;
+        padding-right: 15px;
+    }
+    .jobs-search input {
+        height:40px;
+        font-size: 17.5px;
+        margin-bottom: 15px;
+    }
+    button.btn.btn-primary {
+        width: 15%;
+    }
+    .btn{
+        height:60%;
+        margin-right: 10px;
+    }
+    .all-jobs-btn{
+        font-size: 10px;
+    }
+    .search-jobs-btn{
+        font-size: 10px;
+    }
+   
+}
+@media (max-width:607px) {
+    .h1-jobs{
+        font-size: 30px;
+        padding-right: 15px;
+    }
+    .jobs-search input {
+        height:30px;
+        font-size: 14px;
+        margin-bottom: 10px;
+    }
+    button.btn.btn-primary {
+        width: 15%;
+    }
+    .btn{
+        height:60%;
+        margin-right: 10px;
+    }
+    .all-jobs-btn{
+        font-size: 10px;
+    }
+    .search-jobs-btn{
+        font-size: 10px;
+    }
+}
+*/

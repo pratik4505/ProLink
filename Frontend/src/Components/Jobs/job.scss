@@ -1,0 +1,43 @@
+.job-container {
+  display: flex;
+  border: 1px solid #ccc;
+  margin: 10px;
+  padding: 10px;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  align-items: center;
+  justify-content: center;
+}
+
+.job-container:hover {
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  transform: scale(1.02);
+}
+
+.job-image {
+  width: 100px;
+  height: 100px;
+  overflow: hidden;
+  border-radius: 50%;
+  margin-right: 20px;
+}
+
+.job-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.job-details {
+  flex-grow: 1;
+}
+
+h3 {
+  margin: 0;
+  font-size: 1.5em;
+}
+
+p {
+  margin: 5px 0;
+}
+

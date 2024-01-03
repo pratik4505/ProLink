@@ -1,0 +1,14 @@
+.main_likeBox{
+    background-color: rgb(255, 255, 255);
+    width:100%;
+   
+   
+    border: 1px solid #ccc;
+    padding: 10px;
+    border-radius: 8px;
+    max-height:20rem;
+    overflow-y: auto; 
+    transition: max-height 0.3s ease-in-out;
+
+   
+}

@@ -1,0 +1,78 @@
+.job-container {
+  display: flex;
+  border: 1px solid #ccc;
+  padding: 16px;
+  margin-bottom: 16px;
+  border-radius: 8px;
+  transition: box-shadow 0.3s ease;
+  width:100%;
+}
+
+.job-container:hover {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.job-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.job-image {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  margin-right: 16px;
+}
+
+.job-title {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.job-details {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.job-info {
+  flex: 1;
+}
+
+.job-company {
+  font-weight: bold;
+}
+
+.job-industry {
+  color: #555;
+}
+
+.job-description {
+  margin-bottom: 8px;
+}
+
+.job-skills {
+  font-style: italic;
+  margin-bottom: 8px;
+}
+
+.apply-button {
+  background-color: #4caf50;
+  color: #fff;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease, color 0.3s ease;
+}
+
+.apply-button:hover {
+  background-color: #45a049;
+  transform: scale(1.05);
+}
+
+.apply-button.applied {
+  background-color: #ccc;
+  cursor: not-allowed;
+}

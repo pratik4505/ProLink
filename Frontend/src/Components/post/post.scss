@@ -1,0 +1,264 @@
+/* post.scss */
+.post-container {
+  border-radius: 10px;
+  padding: 20px;
+  border: 1px solid #ccc;
+  background-color: #fff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  width: 70%;
+  /* Ensure overflow is hidden */
+}
+
+.profile-image {
+  width: 50px; /* Slightly increased profile image size */
+  height: 50px;
+  border-radius: 50%;
+  margin-right: 15px; /* Increased margin for better spacing */
+}
+
+.name {
+  font-weight: bold;
+  font-size: 20px; /* Increased font size for name */
+}
+
+.post-content {
+  margin-top: 15px;
+  font-size: 18px;
+  word-wrap: break-word; /* Added property for handling long words */
+}
+.post-image,
+/* post.scss */
+
+.post-video {
+  margin-top: 15px;
+  margin-bottom: 15px; /* Added margin-bottom to create space between video and like-comment div */
+  width: 100%;
+  max-height: 300px; /* Adjusted max-height for better control */
+  object-fit: cover;
+}
+
+/* Rest of the existing styles remain unchanged */
+
+.like-comment {
+  margin-top: 15px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.like-button,
+.comment-button {
+  padding: 8px 15px; /* Increased padding for better button size */
+  border-radius: 8px; /* Slightly rounded corners for buttons */
+  cursor: pointer;
+}
+
+.like-button.liked {
+  background-color: #f44336;
+}
+.Unlike-btn{
+  background-color: #9F8FFF;
+}
+.Unlike-btn:hover{
+  background-color: #ddd;
+  transition: background-color 0.3s ease;
+}
+.post-date {
+  margin-top: 15px;
+  color: #999;
+  font-size: 14px; /* Increased font size for date */
+}
+.emoji-btn{
+  background-color: #9F8FFF;
+  //display:flex;
+  //flex-direction:column
+  //align-items: center;
+  //justify-content: center;
+  //height:40px;
+  //margin-right:9px;
+  //margin-left:5px;
+}
+/* Hover effect */
+.like-button:hover,
+.comment-button:hover {
+  background-color: #ddd;
+}
+/* complete_post.scss */
+.complete_post {
+  display:flex;
+  flex-direction: column;
+  padding-left: 10%;
+  padding-right: 10%;
+  align-items: center;
+  margin-top : 4rem;
+  margin-bottom : 4rem;
+}
+.comment-button{
+  margin-right: 10px;
+}
+.bottom{
+  margin-top: 5%;
+  width:70%;
+}
+@media (max-width:1076px) and (min-width:756px){
+  .Likes{
+    display: flex;
+    flex-direction: row;
+    width:100%;
+    justify-content: center;
+  }
+  .show-likes-btn{
+    width:50%;
+    margin-bottom: 10px;
+  }
+  .comment-btn{
+    width:50%;
+  }
+  .emoji-btn{
+    margin-bottom: 10px;
+    width :10%;
+  }
+  .like-comment{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  .emoji-btn{
+    display:flex;
+   flex-direction:column;
+    height:40px;
+   align-items: center;
+   justify-content: center;
+  }
+}
+
+@media (max-width:756px) and (min-width:585px){
+  .Likes{
+    display: flex;
+    flex-direction: row;
+    width:100%;
+    justify-content: center;
+  }
+  .show-likes-btn{
+    width:55%;
+    margin-bottom: 10px;
+  }
+  .comment-btn{
+    width:55%;
+  }
+  .emoji-btn{
+    margin-bottom: 10px;
+    width :10%;
+  }
+  .like-comment{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  .emoji-btn{
+    display:flex;
+   flex-direction:column;
+    height:35px;
+    width:20px;
+   align-items: center;
+   justify-content: center;
+  }
+}
+
+@media (max-width:585px) and (min-width:448px){
+  .Likes{
+    display: flex;
+    flex-direction: row;
+    width:100%;
+    justify-content: center;
+  }
+  .show-likes-btn{
+    width:80%;
+    margin-bottom: 10px;
+  }
+  .comment-btn{
+    width:80%;
+  }
+  .emoji-btn{
+    margin-bottom: 10px;
+    width :7%;
+  }
+  .like-comment{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  .emoji-btn{
+    display:flex;
+    flex-direction:column;
+    height:35px;
+    align-items: center;
+    justify-content: center;
+  }
+}
+@media (max-width:585px) and (min-width:448px){
+  .Likes{
+    display: flex;
+    flex-direction: row;
+    width:100%;
+    justify-content: center;
+  }
+  .show-likes-btn{
+    width:80%;
+    margin-bottom: 10px;
+  }
+  .comment-btn{
+    width:80%;
+  }
+  .emoji-btn{
+    margin-bottom: 10px;
+    width :7%;
+  }
+  .like-comment{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  .emoji-btn{
+    display:flex;
+    flex-direction:column;
+    height:35px;
+    align-items: center;
+    justify-content: center;
+  }
+}
+@media (max-width:484px){
+  .Likes{
+    display: flex;
+    flex-direction: row;
+    width:100%;
+    justify-content: center;
+  }
+  .show-likes-btn{
+    width:100%;
+    margin-bottom: 10px;
+  }
+  .comment-btn{
+    width:100%;
+  }
+  .emoji-btn{
+    margin-bottom: 10px;
+    width :7%;
+  }
+  .like-comment{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  .emoji-btn{
+    display:flex;
+    flex-direction:column;
+    height:35px;
+    align-items: center;
+    justify-content: center;
+  }
+}
