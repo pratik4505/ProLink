@@ -1,5 +1,5 @@
 import {useContext} from "react";
-import Navbar from "../Components/Navbar";
+
 import { useNavigate } from "react-router-dom";
 import UserProfile from "../Components/userProfile/userProfile";
 import GlobalContext from "../context/GlobalContext";
@@ -17,7 +17,7 @@ export default function Profile() {
  
   return (
     <>
-      <Navbar></Navbar>
+      
       <UserProfile ownerId={ownerId}/>
     </>
   );

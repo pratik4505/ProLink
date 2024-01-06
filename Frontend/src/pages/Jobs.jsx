@@ -1,5 +1,5 @@
 import {useContext} from 'react'
-import Navbar from '../Components/Navbar'
+
 import { useNavigate } from "react-router-dom";
 import MainJob from '../Components/Jobs/Jobss';
 import GlobalContext from '../context/GlobalContext';
@@ -13,7 +13,7 @@ export default function Jobs(){
     
     return (
     <div>
-        <Navbar></Navbar>
+       
        <MainJob/>
     </div>
     );

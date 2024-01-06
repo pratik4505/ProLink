@@ -1,5 +1,5 @@
 import {useContext} from "react";
-import Navbar from "../Components/Navbar";
+
 import { useNavigate } from "react-router-dom";
 import "../sass/HomeDesign.scss";
 
@@ -16,7 +16,7 @@ export default function Home() {
   }
   return (
     <div>
-       <Navbar></Navbar>
+       
       <Feeds/>
     </div>
      
