@@ -17,7 +17,7 @@ exports.getIO = () => {
 
 exports.runIO = (io) => {
   io.on("connection", (socket) => {
-    console.log("client connected");
+    //console.log("client connected");
 
     let token;
     let userId ;
@@ -26,7 +26,7 @@ exports.runIO = (io) => {
     
 
     socket.on("setup", async (room) => {
-      console.log("setup");
+     // console.log("setup");
       socket.join(room.toString());
       userId=room;
       const currentUser = await User.findById(userId).select("userName");
@@ -35,7 +35,7 @@ exports.runIO = (io) => {
         const chats = await Chat.find({
           memberIds: { $in: [userId] },
         });
-        console.log(chats);
+       // console.log(chats);
         chats.forEach((chat) => {
           // Add the socket to the room based on the _id of each matching chat
           socket.join(chat._id.toString());
@@ -43,7 +43,7 @@ exports.runIO = (io) => {
       } catch (error) {
         console.error("Error searching chat collection:", error);
       }
-      console.log('Rooms joined by the socket:', socket.rooms);
+      //console.log('Rooms joined by the socket:', socket.rooms);
       
     });
 
@@ -86,7 +86,7 @@ exports.runIO = (io) => {
 
     socket.on("sendMessage", (data) => {
       const roomMembersArray = Array.from(io.sockets.adapter.rooms.get(data.room) || []);
-console.log('Members in room1:',data.room,"  ", roomMembersArray);
+  //console.log('Members in room1:',data.room,"  ", roomMembersArray);
       socket
         .to(data.room)
         .emit("receiveMessage", {
@@ -100,7 +100,7 @@ console.log('Members in room1:',data.room,"  ", roomMembersArray);
     socket.on("joinChat", (data) => {
       socket.join(data.chatId);
       if(data.otherId!==userId){
-        console.log("clientJoinChat")
+       // console.log("clientJoinChat")
         socket.to(data.otherId).emit("clientJoinChat", data);
       }
     });

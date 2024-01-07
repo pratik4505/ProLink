@@ -4,7 +4,7 @@ import MessageContainer from "./MessageContainer";
 import AddChatPopup from "./AddChatPopup";
 import GlobalContext from "../../context/GlobalContext";
 import "./mainMessage.scss";
-const baseUrl = "http://localhost:3000";
+const baseUrl = import.meta.env.VITE_BASE_URL;
 export default function MainMessage() {
   const gloContext = useContext(GlobalContext);
   const [chats, setChats] = useState([]);

@@ -5,7 +5,7 @@ module.exports = (req, res, next) => {
  
   const token = req.cookies.token;
   
-  console.log(token,"hello");
+ // console.log(token,"hello");
   
   if (!token) {
       throw new HttpError('Not authenticated.',401);

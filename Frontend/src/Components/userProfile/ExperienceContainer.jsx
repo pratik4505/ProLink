@@ -12,7 +12,7 @@ const def = {
   imageUrl: "",
 };
 
-const baseUrl = "http://localhost:3000";
+const baseUrl = import.meta.env.VITE_BASE_URL;
 
 function ExperienceContainer(props) {
   const [experiences, setExperiences] = React.useState(props.data);

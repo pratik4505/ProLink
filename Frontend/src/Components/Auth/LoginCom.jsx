@@ -1,5 +1,5 @@
 import React, { useState,useContext } from 'react';
-import { useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 
 
 import { AiOutlineUser } from 'react-icons/ai';
@@ -48,7 +48,8 @@ export default function LoginComponent() {
       if (response.ok) {
         
           gloContext.initialLoad();
-          navigate('/')
+         // navigate('/')
+        return <Navigate to="/" />;
         
        
       } else {    

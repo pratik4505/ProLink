@@ -14,7 +14,8 @@ import AddPostup from "./AddPostup";
 import ConnectionPopup from "./ConnectionPopup";
 import './userProfile.scss'
 
-const baseUrl = "http://localhost:3000";
+const baseUrl = import.meta.env.VITE_BASE_URL;
+
 const UserProfile = (props) => {
   const [profileData, setProfileData] = useState(null);
   const [detailPopup, setDetailPopup] = useState(false);

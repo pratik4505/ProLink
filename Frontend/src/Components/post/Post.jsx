@@ -8,7 +8,7 @@ import { FaHandsClapping } from "react-icons/fa6";
 import { FaLightbulb } from "react-icons/fa";
 import { FaHeart } from "react-icons/fa";
 import GlobalContext from "../../context/GlobalContext";
-const baseUrl = "http://localhost:3000";
+const baseUrl = import.meta.env.VITE_BASE_URL;
 
 const formatDate = (dateString) => {
   const options = { year: "numeric", month: "2-digit", day: "2-digit" };

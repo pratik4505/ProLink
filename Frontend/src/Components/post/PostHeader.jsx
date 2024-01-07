@@ -3,7 +3,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import './postHeader.scss'; 
 
-const baseUrl = 'http://localhost:3000';
+const baseUrl = import.meta.env.VITE_BASE_URL;
 
 const PostHeader = (props) => {
   return (

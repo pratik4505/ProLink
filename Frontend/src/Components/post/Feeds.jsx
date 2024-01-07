@@ -1,6 +1,6 @@
 import Post from "./Post";
 import { useState, useEffect } from "react";
-
+const baseUrl = import.meta.env.VITE_BASE_URL;
 const postPerPage = 3;
 export default function Feeds() {
   const [loadMore, setLoadMore] = useState(false);

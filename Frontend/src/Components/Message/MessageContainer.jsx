@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useContext } from "react";
 import "./messageContainer.scss";
-const baseUrl = "http://localhost:3000";
+const baseUrl = import.meta.env.VITE_BASE_URL;
 import { Cookies } from "react-cookie";
 import GlobalContext from "../../context/GlobalContext";
 import { v4 as uuidv4 } from "uuid";

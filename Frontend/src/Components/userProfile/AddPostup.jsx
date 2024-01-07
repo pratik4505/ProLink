@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import '../../sass/Popup.scss';
 import "./AddPost.scss"
-const baseUrl = "http://localhost:3000";
+const baseUrl = import.meta.env.VITE_BASE_URL;
 export default function AddPostup(props) {
   const [formdata, setFormdata] = useState({
     content: '',

@@ -3,7 +3,7 @@ import "./commentBox.scss";
 
 import Comment from "./Comment";
 
-
+const baseUrl = import.meta.env.VITE_BASE_URL;
 const CommentBox = (props) => {
   const [newComment, setNewComment] = useState("");
   const [commentsData, setCommentsData] = useState([]);

@@ -1,24 +1,9 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState,useCallback } from "react";
 import GlobalContext from "./GlobalContext";
 import io from "socket.io-client";
 import { Cookies } from "react-cookie";
-const baseUrl = "http://localhost:3000";
-const isImageValid = (url) => {
-  return new Promise((resolve) => {
-    const img = new Image();
-    img.src = url;
-    img.onload = () => resolve(true);
-    img.onerror = () => resolve(false);
-  });
-};
-const isVideoValid = (url) => {
-  return new Promise((resolve) => {
-    const video = document.createElement("video");
-    video.src = url;
-    video.onloadedmetadata = () => resolve(true);
-    video.onerror = () => resolve(false);
-  });
-};
+const baseUrl = import.meta.env.VITE_BASE_URL;
+
 
 export function GlobalProvider(props) {
   const [socket, setSocket] = useState(
@@ -51,7 +36,7 @@ export function GlobalProvider(props) {
     };
   }, []);
 
-  const initialLoad = async () => {
+  const initialLoad = useCallback(async () => {
     const userId = cookies.get("userId");
     const token = cookies.get("token");
 
@@ -78,7 +63,7 @@ export function GlobalProvider(props) {
     else{
       setIsLoggedIn(false); 
     }
-  };
+  },[]);
 
   const listen = () => {
     socket.on("newNotification", (data) => {

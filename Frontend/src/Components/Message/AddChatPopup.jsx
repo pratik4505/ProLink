@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./addChatPopup.scss"
-const baseUrl = "http://localhost:3000";
+const baseUrl = import.meta.env.VITE_BASE_URL;
 let chatsPerPage=5;
 export default function AddChatPopup(props) {
   const [chatData, setChatData] = useState([]);
