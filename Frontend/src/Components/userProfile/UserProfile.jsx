@@ -199,6 +199,7 @@ const UserProfile = (props) => {
           to: props.ownerId,
           skill: skill.skill,
           recommendation,
+          userData:gloContext.userData
         });
       } else {
         console.error("Failed to update endorsement");
@@ -326,12 +327,15 @@ const UserProfile = (props) => {
       });
 
       if (response.ok) {
-        const res = await response.json();
-        gloContext.socket.emit("request", {
+        
+        
+        gloContext.socket.emit("newRequest", {
           to: ownerId,
-          by: res.userId,
-          type: "connectRequest",
+         
+          requestType: "Connect Request",
+          userData:gloContext.userData
         });
+       
         console.log("Connect request sent successfully");
       } else {
         console.error("Failed to send connect request");
@@ -342,11 +346,11 @@ const UserProfile = (props) => {
   };
 
   const messageRequest = async () => {
-    setProfileData((prev) => ({ ...prev, isMessaging: true }));
+   
 
     try {
       const ownerId = props.ownerId;
-
+      setProfileData((prev) => ({ ...prev, isMessaging: true }));
       const response = await fetch(`${baseUrl}/profile/postRequest`, {
         method: "POST",
         credentials: "include",
@@ -357,12 +361,15 @@ const UserProfile = (props) => {
       });
 
       if (response.ok) {
-        const res = await response.json();
-        gloContext.socket.emit("request", {
+        
+        
+        gloContext.socket.emit("newRequest", {
           to: ownerId,
-          by: res.userId,
-          type: "messageRequest",
+         
+          requestType: "Message Request",
+          userData:gloContext.userData
         });
+      
         console.log("Message request sent successfully");
       } else {
         console.error("Failed to send message request");

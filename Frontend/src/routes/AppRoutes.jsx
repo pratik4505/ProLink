@@ -18,10 +18,10 @@ const AppRoutes = () => {
       <Routes>
         <Route path="/Login" element={<Login />} />
         <Route path="*" element={<h1>Not Found</h1>} />
-
+        <Route path="Register" element={<Register />} />
         <Route path="/" element={<ProtectedRoute />}>
           <Route index element={<Home />} />
-          <Route path="Register" element={<Register />} />
+         
           <Route path="Jobs" element={<Jobs />} />
           <Route path="Requests" element={<Requests />} />
           <Route path="Profile/:ownerId" element={<Profile />} />

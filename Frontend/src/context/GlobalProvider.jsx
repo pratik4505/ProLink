@@ -2,6 +2,11 @@ import { useEffect, useState,useCallback } from "react";
 import GlobalContext from "./GlobalContext";
 import io from "socket.io-client";
 import { Cookies } from "react-cookie";
+import FallbackLoading from "../Components/loader/FallbackLoading"
+import {  toast } from 'react-toastify';
+import { Link } from "react-router-dom";
+import 'react-toastify/dist/ReactToastify.css';
+
 const baseUrl = import.meta.env.VITE_BASE_URL;
 
 
@@ -9,29 +14,45 @@ export function GlobalProvider(props) {
   const [socket, setSocket] = useState(
     io("ws://localhost:3000", {
       transports: ["websocket"],
+      upgrade: false,
       withCredentials: true,
+      pingInterval: 1000 * 60 ,
+      pingTimeout: 1000 * 60 * 3
     })
   );
+  const [userData,setUserData] = useState({});
   const [isMessageOpen, setIsMessageOpen] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-
+  const [notifications,setNotifications]=useState([]); 
+  const [globalLoading,setGlobalLoading] = useState(true);
+    
   const cookies = new Cookies();
-
+  
   const setMessageStatus = (value) => {
     setIsMessageOpen(value);
   };
 
+
   useEffect(() => {
-    socket.on("connect", () => {
-      console.log("Socket.IO connected");
+    // Function to send a ping to the server
+   
+
+    socket.on('connect', () => {
+      console.log('Socket.IO connected');
     });
 
-    socket.on("connect_error", (error) => {
-      console.error("Socket.IO connection error:", error);
+    socket.on('connect_error', (error) => {
+      console.error('Socket.IO connection error:', error);
     });
 
     initialLoad();
+    setGlobalLoading(false);
+
     return () => {
+      
+     
+
+      // Disconnect the socket
       socket.disconnect();
     };
   }, []);
@@ -48,6 +69,8 @@ export function GlobalProvider(props) {
         });
 
         if (response.ok) {
+          const res=await response.json();
+          setUserData(res.userData);
           setIsLoggedIn(true);
           socket.emit("setup", userId);
           listen();
@@ -63,36 +86,51 @@ export function GlobalProvider(props) {
     else{
       setIsLoggedIn(false); 
     }
-  },[]);
 
+  },[]);
+ 
   const listen = () => {
     socket.on("newNotification", (data) => {
-      if (data.type === "connectRequest") {
-        // PushNotification.create({
-        //   title: "Connection Request",
-        //   message: `${data.userName} wants to connect with you`,
-        //   theme: 'darkblue',
-        //   native: true,
-        //   duration: 5000,
-        // });
-      } else if (data.type === "messageRequest") {
-        // PushNotification.create({
-        //   title: "Message Request",
-        //   message: `${data.userName} wants to message you`,
-        //   theme: 'darkblue',
-        //   native: true,
-        //   duration: 5000,
-        // });
-      } else if (data.type === "jobAlert") {
-        //jobalert notify
-      } else {
-        // PushNotification.create({
-        //   title: data.title,
-        //   message: data.description,
-        //   theme: 'darkblue',
-        //   native: true,
-        //   duration: 5000,
-        // });
+
+      if (data.type === "newRequest") {
+        toast(
+          <div>
+            
+            <Link to="/Requests" className="text-blue-500 ">
+            <p><strong>{data.title}</strong></p>
+            <p>{data.description}</p>
+            </Link>
+          </div>,
+          {
+            position: 'bottom-right',
+            autoClose: 5000,
+            hideProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          }
+        );
+      }
+      else if (data.type === "endorsement") {
+        toast(
+          <div>
+            
+            <Link to={`/Profile/${cookies.get("userId")}`} className="text-blue-500 ">
+            <p><strong>{data.title}</strong></p>
+            <p>{data.description}</p>
+            </Link>
+          </div>,
+          {
+            position: 'bottom-right',
+            autoClose: 5000,
+            hideProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          }
+        );
       }
     });
 
@@ -114,7 +152,14 @@ export function GlobalProvider(props) {
     isMessageOpen,
     setMessageStatus,
     isLoggedIn,
+    notifications,
+    setNotifications,
+    userData
   };
+
+  if(globalLoading){
+    return <FallbackLoading/>
+  }
 
   return (
     <GlobalContext.Provider value={context}>

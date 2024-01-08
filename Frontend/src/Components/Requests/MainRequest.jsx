@@ -1,13 +1,14 @@
-import { useState, useEffect, useMemo, useCallback } from "react";
+import { useState, useEffect, useMemo, useCallback, useContext } from "react";
 import { memo } from "react";
 import axios from "axios";
 import RequestItem from "./RequestItem";
 import FallbackLoading from "../loader/FallbackLoading";
-
+import GlobalContext from "../../context/GlobalContext";
 
 const baseUrl = import.meta.env.VITE_BASE_URL;
 
 const MainRequest = () => {
+  const gloContext = useContext(GlobalContext);
   const [loading, setLoading] = useState(true);
   const [requests, setRequests] = useState({});
 
@@ -26,6 +27,14 @@ const MainRequest = () => {
           withCredentials: true, // Set this option to send credentials (cookies) with the request
         }
       );
+
+      if (action === "accept") {
+        gloContext.socket.emit("acceptRequest", {
+          to: request.fromUser._id,
+          requestType:
+            request.type === "connect" ? "Connect Request" : "Message Request",
+        });
+      }
 
       // After a successful request, remove the key from requests
       setRequests((prevRequests) => {

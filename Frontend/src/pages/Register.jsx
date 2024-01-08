@@ -8,7 +8,7 @@ export default function Register(){
   const navigate = useNavigate();
   const gloContext = useContext(GlobalContext);
   if(gloContext.isLoggedIn){
-    navigate('/')
+    navigate('/');
   }
     return (
        

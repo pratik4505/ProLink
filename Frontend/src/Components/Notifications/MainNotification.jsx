@@ -1,16 +1,18 @@
 // MainNotification.jsx
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import Notification from './Notification'; // Import the Notification subcomponent
 import './mainNotification.scss'; // Import the CSS file for styling
+import Toast from './Toast';
+import GlobalContext from '../../context/GlobalContext';
 const perPage=40;
 const baseUrl="http://localhost:3000";
 export default function MainNotification() {
-  const [notifications,setNotifications]=useState([]); 
+  const gloContext=useContext(GlobalContext);
   const [loadMore,setLoadMore]=useState(false);
 
   const loadNotify = async () => {
     try {
-      const skip=notifications.length;
+      const skip=gloContext.notifications.length;
       const response = await fetch(`${baseUrl}/notification/getNotifications?limit=${perPage}&skip=${skip}`,{
         credentials:'include'
       });
@@ -18,7 +20,7 @@ export default function MainNotification() {
 
       if(data.length>0){
         setLoadMore(true);
-        setNotifications((prevNotifications) => [...prevNotifications, ...data]);
+        gloContext.setNotifications((prevNotifications) => [...prevNotifications, ...data]);
       }
       else{
         setLoadMore(false);
@@ -35,10 +37,11 @@ export default function MainNotification() {
     loadNotify();
   },[])
     
-
+ 
   return (
     <div className="main-notification-container">
-      {notifications.map((notification) => (
+     
+      {gloContext.notifications.map((notification) => (
         <Notification key={notification._id} data={notification} />
       ))}
       {loadMore&&<button onClick={loadNotify} className='loadMore'>Load More</button>}

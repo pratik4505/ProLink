@@ -1,15 +1,13 @@
 const fs = require("fs");
-const path = require('path');
-const jwt = require('jsonwebtoken');
+const path = require("path");
+const jwt = require("jsonwebtoken");
 const User = require("../../models/user");
 const { v4: uuidv4 } = require("uuid");
 
-
-
-const clearImage =  (filePath) => {
-  filePath = path.join(__dirname,filePath);
+const clearImage = (filePath) => {
+  filePath = path.join(__dirname, filePath);
   if (fs.existsSync(filePath)) {
-     fs.unlink(filePath, (err) => {
+    fs.unlink(filePath, (err) => {
       if (err) {
         console.error("Error clearing image:", err);
       }
@@ -17,23 +15,13 @@ const clearImage =  (filePath) => {
   }
 };
 
-exports.isAuthorized=(req, res) => {
- 
-  const token = req.cookies.token;
-  
-  
-  if (!token) {
-      res.status(401).json({message:"User Not authenticated"});
-    }
-
-  let decodedToken= jwt.verify(token, process.env.SECRET_KEY);
-  
-  if (!decodedToken) {
-    res.status(401).json({message:"user Not authenticated"});
-    
-  }
-  res.status(200).json({message:"User authenticated"});
-  
+exports.isAuthorized = async (req, res) => {
+  const currentUser = await User.findById(req.userId).select(
+    "_id userName imageUrl"
+  );
+  res
+    .status(200)
+    .json({ userData: currentUser, message: "User authenticated" });
 };
 
 exports.getUserProfile = async (req, res) => {
@@ -58,19 +46,19 @@ exports.getUserProfile = async (req, res) => {
       isConnecting = isMessaging = isConnection = false;
     } else if (userProfile.connections.includes(openerId)) {
       isConnection = true;
-    } else if( userProfile.requests){
-      
-        userProfile.requests.forEach((key, value) => {
-          if (value.fromUserId.toString === openerId) {
-            if (value.type === "message") isMessaging = true;
-            else isConnecting = true;
-          }
-        });
+    } else if (userProfile.requests) {
+      userProfile.requests.forEach((value, key) => {
+        
+        if (value.fromUserId.toString() === openerId) {
+          if (value.type === "message") isMessaging = true;
+          else isConnecting = true;
+        }
+      });
     }
 
-    let modifiedSkills={};
+    let modifiedSkills = {};
 
-    if(userProfile.skills){
+    if (userProfile.skills) {
       modifiedSkills = Object.fromEntries(
         Array.from(userProfile.skills, ([skillId, skill]) => [
           skillId,
@@ -84,7 +72,6 @@ exports.getUserProfile = async (req, res) => {
         ])
       );
     }
- 
 
     const connectionCount = userProfile.connections.length;
 
@@ -126,10 +113,10 @@ exports.postDetails = async (req, res) => {
       return res.status(404).json({ message: "User not found" });
     }
 
-    user.userName = userName ;
-    user.summary = summary ;
-    user.location = location ;
-    user.industry = industry ;
+    user.userName = userName;
+    user.summary = summary;
+    user.location = location;
+    user.industry = industry;
 
     const updatedUser = await user.save();
 
@@ -168,24 +155,27 @@ exports.postEducation = async (req, res) => {
 
     if (!user) {
       return res.status(404).json({ message: "User not found" });
-      
     }
 
     if (!user.education) {
       user.education = new Map();
     }
-   
 
     const existingEducation = user.education.get(educationId);
 
     let response;
 
     if (existingEducation) {
-      if (existingEducation.imageUrl&&req.files && req.files["image"] && req.files["image"][0]) {
+      if (
+        existingEducation.imageUrl &&
+        req.files &&
+        req.files["image"] &&
+        req.files["image"][0]
+      ) {
         clearImage(existingEducation.imageUrl);
         existingEducation.imageUrl = req.files["image"][0].path;
       }
-     
+
       existingEducation.place = req.body.place;
       existingEducation.degree = req.body.degree;
       existingEducation.startDate = req.body.startDate;
@@ -197,7 +187,6 @@ exports.postEducation = async (req, res) => {
         path = req.files["image"][0].path;
       }
       user.education.set(educationId, {
-        
         imageUrl: path,
         place: req.body.place,
         degree: req.body.degree,
@@ -230,18 +219,17 @@ exports.postExperience = async (req, res) => {
       user.experience = new Map();
     }
 
-    
     const existingExperience = user.experience.get(experienceId);
 
-   
+    let response = {};
 
-    let response={};
-
-    
     if (existingExperience) {
-     
-
-      if (existingExperience.imageUrl&&req.files && req.files["image"] && req.files["image"][0]) {
+      if (
+        existingExperience.imageUrl &&
+        req.files &&
+        req.files["image"] &&
+        req.files["image"][0]
+      ) {
         clearImage(existingExperience.imageUrl);
         existingExperience.imageUrl = req.files["image"][0].path;
       }
@@ -396,19 +384,14 @@ exports.addProfileImage = async (req, res) => {
     // Get the file path
     const imagePath = req.files["image"][0].path;
 
-    
-    const userId = req.userId; 
-   
+    const userId = req.userId;
+
     const user = await User.findById(userId).select("imageUrl");
-    
-   
 
-    
-
-    if(user.imageUrl) {
+    if (user.imageUrl) {
       clearImage(user.imageUrl);
     }
-    user.imageUrl ="";
+    user.imageUrl = "";
 
     user.imageUrl = imagePath;
     await user.save();
@@ -491,9 +474,13 @@ exports.postRequest = async (req, res) => {
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
-
+    if (!user.requests) {
+      user.requests = new Map();
+    }
     const requestId = uuidv4();
-    user.requests.set(requestId, { type, fromUserId });
+    const createdAt = new Date(); // Current date and time
+
+    user.requests.set(requestId, { type, fromUserId, createdAt });
 
     await user.save();
 

@@ -6,7 +6,7 @@ export default function Skill(props) {
 const [rec,setRec]=useState(false);
 
 function endorseHandler(rec=null) {
-    props.onEndorse(props.key,!props.data.hasEndorsed,rec);
+    props.onEndorse(props.skillKey,!props.data.hasEndorsed,rec);
     setRec(false);
 }
 function deleteHandler(){

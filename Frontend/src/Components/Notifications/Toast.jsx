@@ -1,10 +1,11 @@
 import React from 'react';
-import { toast } from 'react-toastify';
+import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-function Toast({ data }) {
+function Toast() {
   const notify = () => {
-    toast.dark(`${data.userName} wants to connect with you`, {
+    const senderName = 'John'; // Replace with the actual sender's name or dynamic content
+    toast(`${senderName} wants to connect with you`, {
       position: 'top-right',
       autoClose: 5000,
       hideProgressBar: false,
@@ -17,6 +18,7 @@ function Toast({ data }) {
   return (
     <div>
       <button onClick={notify}>Show Notification</button>
+      
     </div>
   );
 }

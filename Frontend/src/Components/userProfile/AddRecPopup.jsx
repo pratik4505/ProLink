@@ -1,11 +1,11 @@
 import React from 'react'
 import { useState } from 'react';
 import '../../sass/Popup.scss';
-export default function AddRecPopup() {
+export default function AddRecPopup(props) {
     const [recommendation, setRecommendation] = useState('');
 
     const handleAboutChange = (e) => {
-      setSkill(e.target.value);
+      setRecommendation(e.target.value);
     };
   
     const handleSubmit = () => {
