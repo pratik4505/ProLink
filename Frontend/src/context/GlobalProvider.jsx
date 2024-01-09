@@ -25,6 +25,8 @@ export function GlobalProvider(props) {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [notifications,setNotifications]=useState([]); 
   const [globalLoading,setGlobalLoading] = useState(true);
+  const [requests, setRequests] = useState({});
+  const [feedsData, setFeedsData] = useState([]);
     
   const cookies = new Cookies();
   
@@ -93,6 +95,7 @@ export function GlobalProvider(props) {
     socket.on("newNotification", (data) => {
 
       if (data.type === "newRequest") {
+        setNotifications((prev)=>[data, ...prev]);
         toast(
           <div>
             
@@ -113,10 +116,32 @@ export function GlobalProvider(props) {
         );
       }
       else if (data.type === "endorsement") {
+        setNotifications((prev)=>[data, ...prev]);
         toast(
           <div>
             
             <Link to={`/Profile/${cookies.get("userId")}`} className="text-blue-500 ">
+            <p><strong>{data.title}</strong></p>
+            <p>{data.description}</p>
+            </Link>
+          </div>,
+          {
+            position: 'bottom-right',
+            autoClose: 5000,
+            hideProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          }
+        );
+      }
+      else if (data.type === "acceptRequest") {
+        setNotifications((prev)=>[data, ...prev]);
+        toast(
+          <div>
+            
+            <Link to={`/Profile/${data.byId}`} className="text-blue-500 ">
             <p><strong>{data.title}</strong></p>
             <p>{data.description}</p>
             </Link>
@@ -154,7 +179,12 @@ export function GlobalProvider(props) {
     isLoggedIn,
     notifications,
     setNotifications,
-    userData
+    userData,
+    requests,
+    setRequests,
+    feedsData,
+    setFeedsData,
+    globalLoading
   };
 
   if(globalLoading){

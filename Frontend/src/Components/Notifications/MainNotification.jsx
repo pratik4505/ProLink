@@ -2,13 +2,14 @@
 import React, { useContext, useEffect, useState } from 'react';
 import Notification from './Notification'; // Import the Notification subcomponent
 import './mainNotification.scss'; // Import the CSS file for styling
-import Toast from './Toast';
+import CommonLoading from '../loader/CommonLoading';
 import GlobalContext from '../../context/GlobalContext';
 const perPage=40;
 const baseUrl="http://localhost:3000";
 export default function MainNotification() {
   const gloContext=useContext(GlobalContext);
   const [loadMore,setLoadMore]=useState(false);
+  const [loading, setLoading] = useState(true);
 
   const loadNotify = async () => {
     try {
@@ -31,12 +32,17 @@ export default function MainNotification() {
     } catch (error) {
       console.error('Error loading notifications:', error);
     }
+
+    setLoading(false);
   };
 
   useEffect(()=>{
     loadNotify();
   },[])
     
+  if (loading) {
+    return <CommonLoading />;
+  }
  
   return (
     <div className="main-notification-container">

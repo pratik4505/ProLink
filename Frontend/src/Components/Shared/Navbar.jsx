@@ -1,27 +1,30 @@
 import { useRef, useState, useEffect } from "react";
-
 import { Link } from "react-router-dom";
-
 import { memo } from "react";
-
 import { IoLogOutOutline } from "react-icons/io5";
 import { Transition } from "@headlessui/react";
 import { AiOutlineBars } from "react-icons/ai";
 import { RxCross1 } from "react-icons/rx";
+import { FaBell } from "react-icons/fa"; // Import notification icon
 
 import { Cookies } from "react-cookie";
+import MainNotification from "../Notifications/MainNotification";
 
 const Navbar = ({ toggleLeftbar, showLeftbar }) => {
-  
   const [loggingOut, setLoggingOut] = useState(false);
   const [showDropdown, setShowDropdown] = useState(false);
+  const [showNotifications, setShowNotifications] = useState(false); // New state for notifications
   const cookies = new Cookies();
   const ownerId = cookies.get("userId");
-
   const dropdownRef = useRef(null);
+  const notificationButtonRef = useRef(null); // Ref for the notification button
 
   const handleProfileClick = () => {
     setShowDropdown(!showDropdown);
+  };
+
+  const handleNotificationClick = () => {
+    setShowNotifications(!showNotifications);
   };
 
   const logout = async () => {
@@ -32,8 +35,14 @@ const Navbar = ({ toggleLeftbar, showLeftbar }) => {
 
   useEffect(() => {
     const handleOutsideClick = (event) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target) &&
+        notificationButtonRef.current &&
+        !notificationButtonRef.current.contains(event.target)
+      ) {
         setShowDropdown(false);
+        setShowNotifications(false);
       }
     };
 
@@ -47,29 +56,54 @@ const Navbar = ({ toggleLeftbar, showLeftbar }) => {
   return (
     <nav className="sticky top-0 z-20 mb-5 flex justify-center gap-10 border bg-white p-2 md:items-center md:justify-between md:px-36">
       <Link to="/" className="hidden md:inline-block">
-        <img className="w-36"  alt="" />
+        <img className="w-36" alt="" />
       </Link>
 
       <button className="inline-block md:hidden" onClick={toggleLeftbar}>
         {showLeftbar ? <RxCross1 /> : <AiOutlineBars />}
       </button>
 
-     
-
       <div className="relative flex justify-end md:w-36">
+        {/* Notification button */}
+        <button
+          ref={notificationButtonRef}
+          type="button"
+          className="inline-flex h-8 w-8 cursor-pointer items-center justify-center rounded-full mr-4"
+          onClick={handleNotificationClick}
+        >
+          <FaBell />
+        </button>
 
+        {/* Profile button */}
         <button
           type="button"
           className="inline-flex h-8 w-8 cursor-pointer items-center justify-center rounded-full"
           onClick={handleProfileClick}
         >
           <img
-           
             alt="profile"
             className="h-8 w-8 rounded-full object-cover"
           />
         </button>
+ 
+        {/* Notification dropdown */}
+        <Transition
+          show={showNotifications}
+          enter="transition ease-out duration-100 transform"
+          enterFrom="opacity-0 scale-95"
+          enterTo="opacity-100 scale-100"
+          leave="transition ease-in duration-75 transform"
+          leaveFrom="opacity-100 scale-100"
+          leaveTo="opacity-0 scale-95"
+        >
+          {() => <div  className="absolute px-2 text-xs overflow-auto right-0 top-10 mt-2 w-72 h-auto max-h-[75vh] origin-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none ">
+          <h2 className=" mt-2 text-3xl font-bold text-center  text-gray-800">Notifications</h2>
 
+            <MainNotification/>
+            </div>}
+        </Transition>
+
+        {/* Profile dropdown */}
         <Transition
           show={showDropdown}
           enter="transition ease-out duration-100 transform"
@@ -90,7 +124,6 @@ const Navbar = ({ toggleLeftbar, showLeftbar }) => {
               <div className="py-1" role="none">
                 <div className="flex flex-col items-center">
                   <img
-                    
                     alt="profile"
                     className="mb-2 h-16 w-16 rounded-full object-cover"
                   />
@@ -121,7 +154,6 @@ const Navbar = ({ toggleLeftbar, showLeftbar }) => {
               </div>
             </div>
           )}
-          
         </Transition>
       </div>
     </nav>

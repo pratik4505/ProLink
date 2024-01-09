@@ -1,18 +1,22 @@
+import GlobalContext from "../../context/GlobalContext";
 import Post from "./Post";
-import { useState, useEffect } from "react";
+import { useState, useEffect,useCallback, useContext } from "react";
+import FallbackLoading from "../loader/FallbackLoading";
 const baseUrl = import.meta.env.VITE_BASE_URL;
 const postPerPage = 3;
 export default function Feeds() {
+  const gloContext=useContext(GlobalContext);
   const [loadMore, setLoadMore] = useState(false);
-  const [feedsData, setFeedsData] = useState([]);
+  
   const [tempData, setTempData] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  const loadData = async () => {
+  const loadData = useCallback(async () => {
     try {
-      setFeedsData([...feedsData, ...tempData]);
+      gloContext.setFeedsData([...gloContext.feedsData, ...tempData]);
       setLoadMore(false);
       const response = await fetch(
-        `http://localhost:3000/getFeeds?limit=${postPerPage}&afterDate=${
+        `${baseUrl}/getFeeds?limit=${postPerPage}&afterDate=${
           tempData[tempData.length - 1].createdAt
         }`,
         {
@@ -28,12 +32,13 @@ export default function Feeds() {
     } catch (error) {
       console.error("Error loading more data:", error);
     }
-  };
+  },[]);
 
-  const initialLoad = async () => {
+  const initialLoad = useCallback(async () => {
     try {
+      
       const response1 = await fetch(
-        `http://localhost:3000/getFeeds?limit=${postPerPage}&afterDate=${new Date().toISOString()}`,
+        `${baseUrl}/getFeeds?limit=${postPerPage}&afterDate=${new Date().toISOString()}`,
         {
           credentials: 'include',
         }
@@ -42,9 +47,9 @@ export default function Feeds() {
         const postResponse1 = await response1.json();
        
         if (postResponse1.length > 0) {
-          setFeedsData(postResponse1);
+          gloContext.setFeedsData(postResponse1);
           const response2 = await fetch(
-            `http://localhost:3000/getFeeds?limit=${postPerPage}&afterDate=${
+            `${baseUrl}/getFeeds?limit=${postPerPage}&afterDate=${
               postResponse1[postResponse1.length - 1].createdAt
             }`,
             {credentials: 'include',
@@ -61,15 +66,24 @@ export default function Feeds() {
     } catch (error) {
       console.error("Error fetching initial data:", error);
     }
-  };
+    setLoading(false);
+  },[]);
 
   useEffect(() => {
+    
+    if(gloContext.feedsData.length===0)
     initialLoad();
+    else
+    setLoading(false);
   }, []);
+
+  if (loading) {
+    return <FallbackLoading />;
+  }
 
   return (
     <>
-      {feedsData.map((feedData) => {
+      {gloContext.feedsData.map((feedData) => {
        return <Post key={feedData._id} postData={feedData} />;
       })}
       {loadMore && <button onClick={loadData}>Load More</button>}

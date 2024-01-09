@@ -10,7 +10,7 @@ const baseUrl = import.meta.env.VITE_BASE_URL;
 const MainRequest = () => {
   const gloContext = useContext(GlobalContext);
   const [loading, setLoading] = useState(true);
-  const [requests, setRequests] = useState({});
+  
 
   // Function to handle accept/decline requests
   const handleRequest = useCallback(async (mkey, request, action) => {
@@ -37,7 +37,7 @@ const MainRequest = () => {
       }
 
       // After a successful request, remove the key from requests
-      setRequests((prevRequests) => {
+      gloContext.setRequests((prevRequests) => {
         const updatedRequests = { ...prevRequests };
         delete updatedRequests[mkey];
         return updatedRequests;
@@ -55,7 +55,7 @@ const MainRequest = () => {
           withCredentials: true,
         });
 
-        setRequests(response.data);
+        gloContext.setRequests(response.data);
         setLoading(false);
       } catch (error) {
         console.error("Error fetching requests:", error);
@@ -70,7 +70,7 @@ const MainRequest = () => {
   const RequestList = useMemo(
     () => (
       <div>
-        {Object.entries(requests).map(([key, request]) => (
+        {Object.entries( gloContext.requests).map(([key, request]) => (
           <RequestItem
             key={key}
             mkey={key}
@@ -80,7 +80,7 @@ const MainRequest = () => {
         ))}
       </div>
     ),
-    [requests, handleRequest]
+    [ gloContext.requests,  gloContext.handleRequest]
   );
 
   // Loading state
