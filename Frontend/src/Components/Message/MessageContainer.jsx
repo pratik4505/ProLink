@@ -1,10 +1,11 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect, useState, useContext, useCallback } from "react";
 import "./messageContainer.scss";
 const baseUrl = import.meta.env.VITE_BASE_URL;
 import { Cookies } from "react-cookie";
 import GlobalContext from "../../context/GlobalContext";
 import { v4 as uuidv4 } from "uuid";
 import ScrollToBottom from "react-scroll-to-bottom";
+import { FaVideo } from "react-icons/fa";
 const msgPerLoad = 50;
 let cookies;
 let myId;
@@ -48,13 +49,22 @@ export default function MessageContainer(props) {
     }
   };
 
+  const makeCall = useCallback(() => {
+    if (!gloContext.toCallData && !gloContext.fromCallData)
+      gloContext.setToCallData({
+        _id: props.data.otherMemberId,
+        imageUrl: props.data.otherMemberImageUrl,
+        userName: props.data.otherMemberName,
+      });
+  }, []);
+
   useEffect(() => {
     cookies = new Cookies();
     myId = cookies.get("userId");
     setMessages([]);
     messageLoader();
     gloContext.socket.on("receiveMessage", (data) => {
-     console.log("useEffect")
+      console.log("useEffect");
       if (data.senderId === props.data.otherMemberId) {
         setMessages((prev) => {
           return [
@@ -81,12 +91,13 @@ export default function MessageContainer(props) {
       return [...prev, { _id: _id, senderId: myId, message: currMsg }];
     });
     setCurrMsg("");
-    
+
     gloContext.socket.emit("sendMessage", {
       room: props.data.chatId,
       message: msg,
       senderId: myId,
       createdAt: new Date(),
+      userData: gloContext.userData,
     });
     const data = {
       senderId: myId,
@@ -126,9 +137,17 @@ export default function MessageContainer(props) {
           />
         )}
         <h1>{props.data.otherMemberName}</h1>
+        <FaVideo onClick={makeCall} size={24} color="#2ecc71" />
       </div>
       <ScrollToBottom className="message__area">
-        {loadMore && <button onClick={messageLoader} className="btn btn-primary loadmore-messaging-section">Load More</button>}
+        {loadMore && (
+          <button
+            onClick={messageLoader}
+            className="btn btn-primary loadmore-messaging-section"
+          >
+            Load More
+          </button>
+        )}
         {messages.map((msg) => (
           <div
             className={`message ${
@@ -151,7 +170,9 @@ export default function MessageContainer(props) {
           }}
           placeholder="Write a message..."
         ></textarea>
-        <button onClick={sendMsg} className="btn btn-primary">Send</button>
+        <button onClick={sendMsg} className="btn btn-primary">
+          Send
+        </button>
       </div>
     </div>
   );

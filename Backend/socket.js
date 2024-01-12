@@ -123,24 +123,31 @@ exports.runIO = (io) => {
       socket.to(data.room).emit("receiveMessage", {
         senderId: data.senderId,
         message: data.message,
-        senderName: Name,
+        senderName: data.userData.userName,
         createdAt: data.createdAt,
       });
     });
 
     socket.on("joinChat", (data) => {
       socket.join(data.chatId);
-      if (data.otherId !== userId) {
+      if (data.otherId !== data.userData._id) {
         // console.log("clientJoinChat")
         socket.to(data.otherId).emit("clientJoinChat", data);
       }
     });
 
-    // socket.on('ping', () => {
-    //   console.log(`Received ping from client: ${socket.id}`);
-    //   // Send a pong response to the client (optional)
-    //   socket.emit('pong');
-    // });
+    socket.on("callUser", (data) => {
+      console.log(data);
+      io.to(data.userToCall).emit("incomingCall", { userData: data.userData });
+    })
+    
+
+
+    socket.on("answerCall", (data) => {
+      io.to(data.to).emit("isCallAccepted", {isAccepted:data.isAccepted });
+    })
+
+   
 
   });
 };

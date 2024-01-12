@@ -4,6 +4,7 @@ import MessageContainer from "./MessageContainer";
 import AddChatPopup from "./AddChatPopup";
 import GlobalContext from "../../context/GlobalContext";
 import "./mainMessage.scss";
+
 const baseUrl = import.meta.env.VITE_BASE_URL;
 export default function MainMessage() {
   const gloContext = useContext(GlobalContext);
@@ -41,8 +42,9 @@ export default function MainMessage() {
 
       if (response.ok) {
         const data = await response.json();
+        gloContext.socket.emit("joinChat",{chatId:data.chatId,otherId:data.otherMemberId,userData:gloContext.userData})
         setChats((prevChats) => [data, ...prevChats]); // Put the new chat data in front of the chats array
-        gloContext.socket.emit("joinChat",{chatId:data.chatId,otherId:data.otherMemberId})
+       
       } else {
         console.error("Failed to add chat");
       }
@@ -50,7 +52,7 @@ export default function MainMessage() {
       console.error("An error occurred while adding chat:", error);
     }
   };
-
+  
   useEffect(() => {
     gloContext.setMessageStatus(true);
     loadChats();
@@ -94,7 +96,8 @@ export default function MainMessage() {
           ))}
         </div>
       </div>
-      {currChat && <MessageContainer key={currChat.chatId}data={currChat} />}
+      {currChat && <MessageContainer key={currChat.chatId} data={currChat} />}
+      
     </div>
   );
 }

@@ -6,7 +6,7 @@ import { Transition } from "@headlessui/react";
 import { AiOutlineBars } from "react-icons/ai";
 import { RxCross1 } from "react-icons/rx";
 import { FaBell } from "react-icons/fa"; // Import notification icon
-
+import VideoCall from "../Message/VideoCall";
 import { Cookies } from "react-cookie";
 import MainNotification from "../Notifications/MainNotification";
 
@@ -85,7 +85,7 @@ const Navbar = ({ toggleLeftbar, showLeftbar }) => {
             className="h-8 w-8 rounded-full object-cover"
           />
         </button>
- 
+      
         {/* Notification dropdown */}
         <Transition
           show={showNotifications}
