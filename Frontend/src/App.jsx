@@ -10,13 +10,13 @@ function App() {
     const location = useLocation();
   return (
     <GlobalProvider>
-      
+     
       <ToastContainer/>
         <Helmet>
         <title>{location.pathname}</title>
       </Helmet>
       <AppRoutes/>
-      <VideoCall/>
+      
     </GlobalProvider>
   )
 }

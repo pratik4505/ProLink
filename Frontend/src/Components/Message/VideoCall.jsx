@@ -20,7 +20,7 @@ function VideoCall() {
   const [videoDiaglog, setVideoDiaglog] = useState(false);
   const [connecting, setConnecting] = useState(true);
   const [fromCallData, setFromCallData] = useState(null);
-
+  const videoDiaglogRef = useRef();
   const handleAcceptCall = (data) => {
     //console.log(temp, gloContext.peer);
     gloContext.socket.emit("answerCall", {
@@ -63,7 +63,7 @@ function VideoCall() {
       console.error(err);
     });
   };
- 
+
   useEffect(() => {
     const incomingHandler = (data) => {
       toast(
@@ -138,8 +138,6 @@ function VideoCall() {
 
     myVideo.current.srcObject = stream;
 
-   
-
     gloContext.socket.on("isCallAccepted", (data) => {
       if (data.isAccepted === true) {
         setConnecting(false);
@@ -179,7 +177,7 @@ function VideoCall() {
       }
     }
     gloContext.peer.off("call", callHandler);
-    
+
     gloContext.setToCallData(null);
     setFromCallData(null);
     setUserData(null);
@@ -198,43 +196,25 @@ function VideoCall() {
         leaveTo="opacity-0 scale-50"
       >
         {() => (
-          <div
-            className="fixed top-0 left-0  bg-opacity-30 backdrop-blur-md w-full h-full transform -translate-x-1/2 -translate-y-1/2 origin-center rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none z-60"
-          >
-            {connecting && <p>Call in progress...</p>}
-            <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-70">
-              <>
-                <h1>My Stream</h1>
-                <video
-                  playsInline
-                  muted
-                  ref={myVideo}
-                  autoPlay
-                  className="w-full"
-                />
-              </>
-              <>
-                <h1>Remote Stream</h1>
-                <video
-                  playsInline
-                  ref={userVideo}
-                  autoPlay
-                  className="w-full"
-                />
-              </>
-            </div>
-  
-            <button className="text-red-500 cursor-pointer" onClick={endCall}>
-              <FaPhoneSlash />
-            </button>
+          <div ref={videoDiaglogRef} className="border-black border-2 absolute right-1/4 top-14 z-50 w-[70vw] h-[80vh] bg-opacity-80 backdrop-blur-md p-4 bg-white flex flex-col items-end">
+          <div className="border-black border-2 w-full h-[95%] relative">
+           
+            <video playsInline ref={userVideo} autoPlay className=" w-full h-full object-cover" />
+            
+            <video playsInline muted ref={myVideo} autoPlay className=" absolute bottom-2 right-2  h-[30%]" />
+            
           </div>
+        
+          <button className="text-red-500 cursor-pointer mt-2 mx-auto" onClick={endCall}>
+            <FaPhoneSlash size={30} />
+          </button>
+        
+          
+        </div>
         )}
       </Transition>
     </>
   );
-  
-  
-  
 }
 
 export default memo(VideoCall);

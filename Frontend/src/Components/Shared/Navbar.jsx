@@ -58,13 +58,14 @@ const Navbar = ({ toggleLeftbar, showLeftbar }) => {
       <Link to="/" className="hidden md:inline-block">
         <img className="w-36" alt="" />
       </Link>
-
+     
       <button className="inline-block md:hidden" onClick={toggleLeftbar}>
         {showLeftbar ? <RxCross1 /> : <AiOutlineBars />}
       </button>
-
+      
       <div className="relative flex justify-end md:w-36">
         {/* Notification button */}
+        <VideoCall/>
         <button
           ref={notificationButtonRef}
           type="button"
@@ -85,7 +86,7 @@ const Navbar = ({ toggleLeftbar, showLeftbar }) => {
             className="h-8 w-8 rounded-full object-cover"
           />
         </button>
-      
+
         {/* Notification dropdown */}
         <Transition
           show={showNotifications}
