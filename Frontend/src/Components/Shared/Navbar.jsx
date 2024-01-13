@@ -9,6 +9,7 @@ import { FaBell } from "react-icons/fa"; // Import notification icon
 import VideoCall from "../Message/VideoCall";
 import { Cookies } from "react-cookie";
 import MainNotification from "../Notifications/MainNotification";
+import Search from "./Search";
 
 const Navbar = ({ toggleLeftbar, showLeftbar }) => {
   const [loggingOut, setLoggingOut] = useState(false);
@@ -62,7 +63,7 @@ const Navbar = ({ toggleLeftbar, showLeftbar }) => {
       <button className="inline-block md:hidden" onClick={toggleLeftbar}>
         {showLeftbar ? <RxCross1 /> : <AiOutlineBars />}
       </button>
-      
+      <Search/>
       <div className="relative flex justify-end md:w-36">
         {/* Notification button */}
         <VideoCall/>

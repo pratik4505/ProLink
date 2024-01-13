@@ -9,6 +9,7 @@ import Profile from "../pages/Profile";
 import Message from "../pages/Message";
 import Register from "../pages/Register";
 import Home from "../pages/Home";
+import Post from "../pages/Post";
 import { Suspense } from "react";
 import FallbackLoading from "../Components/loader/FallbackLoading";
 
@@ -19,6 +20,8 @@ const AppRoutes = () => {
         <Route path="/Login" element={<Login />} />
         <Route path="*" element={<h1>Not Found</h1>} />
         <Route path="Register" element={<Register />} />
+        
+
         <Route path="/" element={<ProtectedRoute />}>
           <Route index element={<Home />} />
          
@@ -27,6 +30,7 @@ const AppRoutes = () => {
           <Route path="Profile/:ownerId" element={<Profile />} />
           <Route path="Notifications" element={<Notifications />} />
           <Route path="Message" element={<Message />} />
+          <Route path="Post/:postId" element={<Post/>} />
         </Route>
       </Routes>
     </Suspense>

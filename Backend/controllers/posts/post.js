@@ -171,18 +171,18 @@ exports.getFeeds=async (req, res) => {
     }
 
    
-    // const filter = {
-    //   $or: [
-    //     { userId: { $in: loggedInUser.connections } },
-    //     { companyId: { $in: loggedInUser.companyFollows } },
-    //   ],
-    //   createdAt: { $lt: new Date(afterDate) },
-    // };
-
     const filter = {
-      
+      $or: [
+        { userId: { $in: loggedInUser.connections } },
+        { companyId: { $in: loggedInUser.companyFollows } },
+      ],
       createdAt: { $lt: new Date(afterDate) },
     };
+
+    // const filter = {
+      
+    //   createdAt: { $lt: new Date(afterDate) },
+    // };
 
     
     const posts = await Post.find(filter)

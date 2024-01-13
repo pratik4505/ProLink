@@ -38,6 +38,8 @@ const companySchema = new mongoose.Schema({
   
 });
 
+companySchema.index({ name: "text" });
+
 const Company = mongoose.model('Company', companySchema);
 
 module.exports = Company;

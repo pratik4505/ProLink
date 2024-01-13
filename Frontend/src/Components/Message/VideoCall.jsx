@@ -188,10 +188,10 @@ function VideoCall() {
     <>
       <Transition
         show={videoDiaglog}
-        enter="transition ease-out duration-300 transform"
+        enter="transition ease-out duration-300 transform origin-bottom-left"
         enterFrom="opacity-0 scale-50"
         enterTo="opacity-100 scale-100"
-        leave="transition ease-in duration-200 transform"
+        leave="transition ease-in duration-200 transform origin-bottom-left"
         leaveFrom="opacity-100 scale-100"
         leaveTo="opacity-0 scale-50"
       >

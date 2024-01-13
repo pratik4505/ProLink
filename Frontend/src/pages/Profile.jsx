@@ -7,11 +7,7 @@ import { useParams } from 'react-router-dom';
 export default function Profile() {
  
  
-  const navigate = useNavigate();
-  const gloContext = useContext(GlobalContext);
-  if(!gloContext.isLoggedIn){
-    navigate('/Login');
-  }
+  
 
   const { ownerId} = useParams();
  
