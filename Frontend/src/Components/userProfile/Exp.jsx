@@ -12,11 +12,11 @@ export default function Exp(props) {
   return (
     <div>
       <div className="col-md-3">
-        <img
+        {props.data.imageUrl&&<img
           src={`${baseUrl}/${props.data.imageUrl}`}
           alt="Company Logo"
           className="img-fluid"
-        />
+        />}
       </div>
       <div className="col-md-9">
         <h5>{props.data.title}</h5>

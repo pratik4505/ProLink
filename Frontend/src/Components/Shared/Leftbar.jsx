@@ -6,6 +6,7 @@ import { MdPeopleOutline } from "react-icons/md";
 import { BiMessageDetail } from "react-icons/bi";
 import { IoIosNotificationsOutline } from "react-icons/io";
 import { BiUserCircle } from "react-icons/bi";
+import { AiOutlineTrophy } from 'react-icons/ai';
 import { Cookies } from "react-cookie";
 
 const Leftbar = () => {
@@ -13,7 +14,7 @@ const Leftbar = () => {
   const ownerId = cookies.get("userId");
 
   return (
-    <div  className=" md:block  bg-white fixed top-20 pt-5 h-[85vh] rounded-md border w-[20%]">
+    <div  className="hidden md:block  bg-white fixed top-20 pt-5 h-[85vh] rounded-md border w-[20%]">
       <div className="flex flex-col justify-start items-center">
         <div className="flex flex-col items-start gap-4 w-full p-5">
           <Link
@@ -30,6 +31,15 @@ const Leftbar = () => {
           >
             <BsBriefcase size={24} className="text-xl" />
             <p>Jobs</p>
+          </Link>
+
+
+          <Link
+            className="flex items-center gap-2 text-lg font-medium hover:text-primary"
+            to="/Jobs"
+          >
+            <AiOutlineTrophy size={24} className="text-xl" />
+            <p>Challenges</p>
           </Link>
 
           <Link

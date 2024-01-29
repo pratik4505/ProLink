@@ -4,6 +4,7 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const HttpError = require("../../models/http-error");
 const User = require("../../models/user");
+const Token=require("../../models/token");
 
 const { authenticator } = require("otplib");
 
@@ -90,7 +91,22 @@ exports.login = async (req, res, next) => {
       process.env.SECRET_KEY
     );
 
-    res.cookie('token', token);
+    const accessToken = jwt.sign(payload, process.env.SECRET_KEY, {
+      expiresIn: "6h",
+    });
+
+    const refreshToken = jwt.sign(payload, process.env.REFRESH_SECRET_KEY, {
+      expiresIn: "7d",
+    });
+
+    const newRefreshToken = new Token({
+      user: existingUser._id,
+      refreshToken,
+      accessToken,
+    });
+    await newRefreshToken.save();
+
+    res.cookie('token', accessToken);
     res.cookie('userId', loadedUser._id.toString());
 
     // res.cookie('token', token, {
@@ -108,7 +124,7 @@ exports.login = async (req, res, next) => {
     // });
 
 
-    res.status(200).json({ token: token, userId: loadedUser._id.toString() });
+    res.status(200).json({ token: accessToken, userId: loadedUser._id.toString() });
   } catch (err) {
     next(err);
   }

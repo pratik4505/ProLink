@@ -8,12 +8,12 @@ const ProtectedRoute = () => {
   const gloContext = useContext(GlobalContext);
 
   return gloContext.isLoggedIn ? (
-    <div className="scroll-smooth">
+    <div className="scroll-smooth w-full h-full">
       <Navbar />
 
-      <div className="w-full flex px-[2%]">
+      <div className="w-full md:flex md:px-[2%]">
         <Leftbar />
-        <div className=" w-4/5 ml-[20%] px-[2%]">
+        <div className=" w-full md:w-4/5 md:ml-[22%] ">
           <Outlet />
         </div>
       </div>

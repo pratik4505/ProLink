@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import '../../sass/Popup.scss';
+
 import "./AddPost.scss"
 const baseUrl = import.meta.env.VITE_BASE_URL;
 export default function AddPost(props) {
@@ -61,10 +61,10 @@ export default function AddPost(props) {
   };
 
   return (
-    <div className="popup">
-      <div className="popup-content card">
-        <h2 className="card-header">Add Post</h2>
-        <div className="card-body">
+    
+      <div className="">
+        <h2 className="">Add Post</h2>
+        <div className="">
         <label htmlFor="content">Content:</label>
           <textarea
             id="content"
@@ -97,6 +97,6 @@ export default function AddPost(props) {
           </button>
         </div>
       </div>
-    </div>
+    
   );
 }

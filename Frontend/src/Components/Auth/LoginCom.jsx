@@ -1,7 +1,7 @@
 import React, { useState,useContext } from 'react';
 import { Navigate, useNavigate } from "react-router-dom";
 
-
+import { FaGoogle } from 'react-icons/fa';
 import { AiOutlineUser } from 'react-icons/ai';
 import {BsKey} from 'react-icons/bs';
 import { Link } from 'react-router-dom';
@@ -11,7 +11,7 @@ import GlobalContext from '../../context/GlobalContext';
 import '../../sass/styling.scss';
 
 
-
+const baseUrl = import.meta.env.VITE_BASE_URL;
 export default function LoginComponent() {
   const gloContext=useContext(GlobalContext);
   const navigate = useNavigate();
@@ -29,7 +29,12 @@ export default function LoginComponent() {
     });
   };
 
- 
+  const googleLoginHandler=async ()=>{
+   
+    window.open('http://localhost:3000/auth/google',"_self");
+    
+    
+  }
 
   const handleLogin = async () => {
     setLoading(true);
@@ -101,12 +106,14 @@ export default function LoginComponent() {
                 Log in
               </div>
             )}
-            
+             <div className="submitG" onClick={googleLoginHandler}>Log in with Google</div>
            
           </div>
           <div className="register" >
             Don't have an account? <Link to="/Register">Register</Link>
           </div>
+             
+              <a href={`http://localhost:3000/auth/google`}> <FaGoogle/> Sign-in with Google</a>
         </div>
       </div>
       {responseMessage && (

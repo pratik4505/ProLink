@@ -386,13 +386,13 @@ const UserProfile = (props) => {
           <div className="container mt-3">
             <div className="row">
               
-                <div className="profile-picture">
+                {/* <div className="profile-picture">
                   {profileData.imageUrl&&<img
                     src={`${baseUrl}/${profileData.imageUrl}`}
                     alt="Profile Picture"
                     className="img-fluid rounded-circle"
                   />}
-                </div>
+                </div> */}
                 
                 
               {postPopup && (

@@ -1,4 +1,4 @@
-import { useRef, useState, useEffect } from "react";
+import { useRef, useState, useEffect ,useContext} from "react";
 import { Link } from "react-router-dom";
 import { memo } from "react";
 import { IoLogOutOutline } from "react-icons/io5";
@@ -10,6 +10,7 @@ import VideoCall from "../Message/VideoCall";
 import { Cookies } from "react-cookie";
 import MainNotification from "../Notifications/MainNotification";
 import Search from "./Search";
+import GlobalContext from "../../context/GlobalContext";
 
 const Navbar = ({ toggleLeftbar, showLeftbar }) => {
   const [loggingOut, setLoggingOut] = useState(false);
@@ -17,6 +18,7 @@ const Navbar = ({ toggleLeftbar, showLeftbar }) => {
   const [showNotifications, setShowNotifications] = useState(false); // New state for notifications
   const cookies = new Cookies();
   const ownerId = cookies.get("userId");
+  const gloContext=useContext(GlobalContext);
   const dropdownRef = useRef(null);
   const notificationButtonRef = useRef(null); // Ref for the notification button
 
@@ -55,7 +57,7 @@ const Navbar = ({ toggleLeftbar, showLeftbar }) => {
   }, []);
 
   return (
-    <nav className="sticky top-0 z-20 mb-5 flex justify-center gap-10 border bg-white p-2 md:items-center md:justify-between md:px-36">
+    <nav className="sticky top-0 z-20 md:mb-3 flex justify-center gap-10 border bg-white p-2 md:items-center md:justify-between md:px-36">
       <Link to="/" className="hidden md:inline-block">
         <img className="w-36" alt="" />
       </Link>
@@ -126,13 +128,14 @@ const Navbar = ({ toggleLeftbar, showLeftbar }) => {
               <div className="py-1" role="none">
                 <div className="flex flex-col items-center">
                   <img
+                    src={gloContext.userData.imageUrl}
                     alt="profile"
                     className="mb-2 h-16 w-16 rounded-full object-cover"
                   />
                   <div className="text-sm font-semibold text-gray-700 hover:underline">
-                    <Link to={`/Profile/${ownerId}`}>name</Link>
+                    <Link to={`/Profile/${ownerId}`}>{gloContext.userData.userName}</Link>
                   </div>
-                  <div className="text-sm text-gray-500">email</div>
+                  <div className="text-sm text-gray-500">{gloContext.userData.email}</div>
                 </div>
                 <hr className="my-2" />
                 <div className="flex justify-center">

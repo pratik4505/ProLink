@@ -17,7 +17,7 @@ const clearImage = (filePath) => {
 
 exports.isAuthorized = async (req, res) => {
   const currentUser = await User.findById(req.userId).select(
-    "_id userName imageUrl"
+    "_id userName imageUrl email"
   ).lean();
  
   res

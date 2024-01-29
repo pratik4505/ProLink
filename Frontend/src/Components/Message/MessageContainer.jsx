@@ -5,7 +5,10 @@ import { Cookies } from "react-cookie";
 import GlobalContext from "../../context/GlobalContext";
 import { v4 as uuidv4 } from "uuid";
 import ScrollToBottom from "react-scroll-to-bottom";
-import { FaVideo } from "react-icons/fa";
+import { MdVideoCall } from "react-icons/md";
+import { IoIosArrowBack } from "react-icons/io";
+import { IoIosSend } from "react-icons/io";
+import { FaRegUser } from "react-icons/fa";
 const msgPerLoad = 50;
 let cookies;
 let myId;
@@ -127,23 +130,34 @@ export default function MessageContainer(props) {
   };
 
   return (
-    <div className="chat__section">
-      <div className="brand">
+    <div className="  h-full w-full md:w-[70%] bg-white shadow-5xl">
+      <div className="bg-primary-300 flex items-center h-[10%] justify-between px-[2%]  ">
+        <div className="flex items-center justify-between">
+        <IoIosArrowBack
+          size={28}
+          color="#ffff"
+          onClick={() => props.closeContainer()}
+        />
         {props.data.otherMemberImageUrl && (
           <img
-            height="40"
+            className="h-[90%]"
             src={`${baseUrl}/${props.data.otherMemberImageUrl}`}
             alt=""
           />
         )}
-        <h1>{props.data.otherMemberName}</h1>
-        <FaVideo onClick={makeCall} size={24} color="#2ecc71" />
+        {!props.data.otherMemberImageUrl && (
+          <FaRegUser size={28} className="mx-2" />
+        )}
+        <h1 className="text-3xl ml-2 font-bold text-[#ffffff]">{props.data.otherMemberName}</h1>
+        </div>
+        
+        <MdVideoCall onClick={makeCall} size={40} color="#ffff" />
       </div>
-      <ScrollToBottom className="message__area">
+      <ScrollToBottom className="flex flex-col overflow-y-auto h-[80%] px-2">
         {loadMore && (
           <button
             onClick={messageLoader}
-            className="btn btn-primary loadmore-messaging-section"
+            className="btn btn-primary loadmore-messaging-section m-auto"
           >
             Load More
           </button>
@@ -159,19 +173,18 @@ export default function MessageContainer(props) {
           </div>
         ))}
       </ScrollToBottom>
-      <div className="textarea-container">
+      <div className="flex w-full border-none  text-base outline-none bg-gray-100 h-[10%]">
         <textarea
           id="textarea"
-          cols="25"
-          rows="1"
           value={currMsg}
           onChange={(e) => {
             setCurrMsg(e.target.value);
           }}
+          className=" w-full  h-full flex-grow border-none  text-base outline-none bg-gray-100 resize-none  overflow-y-auto p-3"
           placeholder="Write a message..."
-        ></textarea>
-        <button onClick={sendMsg} className="btn btn-primary">
-          Send
+        />
+        <button onClick={sendMsg} className=" bg-primary-100 text-white p-2">
+          <IoIosSend size={50} className="" />
         </button>
       </div>
     </div>

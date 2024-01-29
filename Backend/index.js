@@ -14,6 +14,7 @@ const searchRoutes=require('./routes/searchRoute');
 const app =express();
 const bodyParser = require('body-parser');
 
+const passport = require("passport");
 const multer = require('multer');
 const path = require('path');
 const cookieParser = require('cookie-parser');
@@ -71,6 +72,8 @@ app.use((req, res, next) => {
   next();
 });
 
+
+app.use(passport.initialize());
 
 app.use(cookieParser());
 

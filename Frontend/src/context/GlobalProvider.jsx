@@ -27,7 +27,7 @@ export function GlobalProvider(props) {
   const [globalLoading, setGlobalLoading] = useState(true);
   const [requests, setRequests] = useState({});
   const [feedsData, setFeedsData] = useState([]);
-
+  const [tempData, setTempData] = useState([]);
   const [toCallData, setToCallData] = useState(null);
 
   const [peer, setPeer] = useState(null);
@@ -202,7 +202,8 @@ export function GlobalProvider(props) {
     globalLoading,
     toCallData,
     setToCallData,
-
+    tempData,
+    setTempData,
     peer,
   };
 

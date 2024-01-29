@@ -1,8 +1,9 @@
-import React, { useEffect, useState ,useContext} from "react";
+import React, { useEffect, useState, useContext } from "react";
 import ChatList from "./ChatList";
 import MessageContainer from "./MessageContainer";
 import AddChatPopup from "./AddChatPopup";
 import GlobalContext from "../../context/GlobalContext";
+import { IoMdAddCircleOutline } from "react-icons/io";
 import "./mainMessage.scss";
 
 const baseUrl = import.meta.env.VITE_BASE_URL;
@@ -42,9 +43,12 @@ export default function MainMessage() {
 
       if (response.ok) {
         const data = await response.json();
-        gloContext.socket.emit("joinChat",{chatId:data.chatId,otherId:data.otherMemberId,userData:gloContext.userData})
+        gloContext.socket.emit("joinChat", {
+          chatId: data.chatId,
+          otherId: data.otherMemberId,
+          userData: gloContext.userData,
+        });
         setChats((prevChats) => [data, ...prevChats]); // Put the new chat data in front of the chats array
-       
       } else {
         console.error("Failed to add chat");
       }
@@ -52,18 +56,18 @@ export default function MainMessage() {
       console.error("An error occurred while adding chat:", error);
     }
   };
-  
+
   useEffect(() => {
     gloContext.setMessageStatus(true);
     loadChats();
 
-    return ()=>{
-        gloContext.setMessageStatus(false);
-    }
+    return () => {
+      gloContext.setMessageStatus(false);
+    };
   }, []);
 
   return (
-    <div className="main_message">
+    <div className=" flex  w-full h-[90vh] ">
       {popup && (
         <AddChatPopup
           chatAdder={chatAdder}
@@ -73,19 +77,16 @@ export default function MainMessage() {
           chats={chats}
         />
       )}
-      <div className="chat__section">
-        <div className="brand-message-section">
-          <h1>Lync</h1>
-          <button
-            onClick={() => {
-              setPopup(true);
-            }}
-            className="btn add-chats-messaging"
-          >
-            Add Chats
-          </button>
+
+      <div
+        className={`w-full shadow-2xl relative md:w-[35%]  h-full ${
+          currChat ? "hidden" : "block"
+        } md:block bg-white`}
+      >
+        <div className=" bg-primary-300 flex items-center h-[10%] justify-between px-[2%] ">
+          <h1 className="text-3xl ml-2 font-bold text-[#ffffff]">Chats</h1>
         </div>
-        <div className="chatlist-messaging">
+        <div className="flex flex-col overflow-y-auto ">
           {chats.map((chat) => (
             <ChatList
               key={chat.chatId}
@@ -94,10 +95,25 @@ export default function MainMessage() {
               currChat={currChat}
             />
           ))}
+          <hr className="w-[80%] mx-auto border-gray-300" />
         </div>
+
+        <button
+          onClick={() => {
+            setPopup(true);
+          }}
+          className=" absolute bottom-4 right-4 focus:outline-none"
+        >
+          <IoMdAddCircleOutline size={45} color="#00aeff" />
+        </button>
       </div>
-      {currChat && <MessageContainer key={currChat.chatId} data={currChat} />}
-      
+      {currChat && (
+        <MessageContainer
+          key={currChat.chatId}
+          data={currChat}
+          closeContainer={() => setCurrChat(null)}
+        />
+      )}
     </div>
   );
 }

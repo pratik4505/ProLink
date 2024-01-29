@@ -8,16 +8,16 @@ export default function Feeds() {
   const gloContext=useContext(GlobalContext);
   const [loadMore, setLoadMore] = useState(false);
   
-  const [tempData, setTempData] = useState([]);
+ 
   const [loading, setLoading] = useState(true);
 
-  const loadData = useCallback(async () => {
+  const loadData = async () => {
     try {
-      gloContext.setFeedsData([...gloContext.feedsData, ...tempData]);
+      gloContext.setFeedsData([...gloContext.feedsData, ...gloContext.tempData]);
       setLoadMore(false);
       const response = await fetch(
         `${baseUrl}/getFeeds?limit=${postPerPage}&afterDate=${
-          tempData[tempData.length - 1].createdAt
+          gloContext.tempData[gloContext.tempData.length - 1].createdAt
         }`,
         {
           credentials: 'include',
@@ -25,16 +25,16 @@ export default function Feeds() {
       );
       const newData = await response.json();
 
-      setTempData(newData);
+      gloContext.setTempData(newData);
       if (newData.length > 0) {
         setLoadMore(true);
       }
     } catch (error) {
       console.error("Error loading more data:", error);
     }
-  },[]);
+  };
 
-  const initialLoad = useCallback(async () => {
+  const initialLoad = async () => {
     try {
       
       const response1 = await fetch(
@@ -58,7 +58,7 @@ export default function Feeds() {
           );
           const postResponse2 = await response2.json();
           if (postResponse2.length > 0) {
-            setTempData(postResponse2);
+            gloContext.setTempData(postResponse2);
             setLoadMore(true);
           }
         }
@@ -67,14 +67,17 @@ export default function Feeds() {
       console.error("Error fetching initial data:", error);
     }
     setLoading(false);
-  },[]);
+  };
 
   useEffect(() => {
     
     if(gloContext.feedsData.length===0)
     initialLoad();
     else
-    setLoading(false);
+   { setLoading(false);
+    setLoadMore(true);
+
+   }
   }, []);
 
   if (loading) {
@@ -82,11 +85,11 @@ export default function Feeds() {
   }
 
   return (
-    <>
+    <div className="flex flex-col">
       {gloContext.feedsData.map((feedData) => {
        return <Post key={feedData._id} postData={feedData} />;
       })}
       {loadMore && <button onClick={loadData}>Load More</button>}
-    </>
+    </div>
   );
 }
