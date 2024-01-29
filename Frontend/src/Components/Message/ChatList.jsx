@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-const baseUrl = "http://localhost:3000";
+const baseUrl = import.meta.env.VITE_BASE_URL;
 import { FaRegUser } from "react-icons/fa";
 import GlobalContext from "../../context/GlobalContext";
 
@@ -26,13 +26,13 @@ export default function ChatList(props) {
       onClick={() => {
         props.onChatClick(props.chat);
       }}
-      className="flex p-3 "
+      className="flex p-3 shadow-sm "
     >
       {props.chat.otherMemberImageUrl && (
         <img
           src={`${baseUrl}/${props.chat.otherMemberImageUrl}`}
           alt="Profile"
-          className="profile-image"
+          className="w-12 h-12 rounded-full mr-2"
           onError={handleImageError}
         />
       )}
@@ -45,6 +45,7 @@ export default function ChatList(props) {
       {unreadMsg && props.currChat.chatId !== props.chat.chatId && (
         <p className="text-green-500">{unreadMsg}</p>
       )}
+     
     </div>
   );
 }

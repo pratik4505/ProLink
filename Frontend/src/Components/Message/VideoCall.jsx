@@ -196,16 +196,16 @@ function VideoCall() {
         leaveTo="opacity-0 scale-50"
       >
         {() => (
-          <div ref={videoDiaglogRef} className="border-black border-2 absolute right-1/4 top-14 z-50 w-[70vw] h-[80vh] bg-opacity-80 backdrop-blur-md p-4 bg-white flex flex-col items-end">
-          <div className="border-black border-2 w-full h-[95%] relative">
+          <div ref={videoDiaglogRef} className="border-black border-2 absolute right-1/4 top-14 z-50 w-[90vw] h-[90vh] sm:w-[70vw] sm:h-[80vh] bg-opacity-80 backdrop-blur-md px-2 py-3 bg-white flex flex-col items-end">
+          <div className="border-black border-2 w-full h-[98%] relative">
            
             <video playsInline ref={userVideo} autoPlay className=" w-full h-full object-cover" />
             
-            <video playsInline muted ref={myVideo} autoPlay className=" absolute bottom-2 right-2  h-[30%]" />
+            <video playsInline muted ref={myVideo} autoPlay className=" absolute bottom-2 right-2 h-[10%] md:h-[30%]" />
             
           </div>
         
-          <button className="text-red-500 cursor-pointer mt-2 mx-auto" onClick={endCall}>
+          <button className="text-red-500 cursor-pointer  mx-auto" onClick={endCall}>
             <FaPhoneSlash size={30} />
           </button>
         

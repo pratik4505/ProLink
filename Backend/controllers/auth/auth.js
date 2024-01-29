@@ -91,40 +91,42 @@ exports.login = async (req, res, next) => {
       process.env.SECRET_KEY
     );
 
-    const accessToken = jwt.sign(payload, process.env.SECRET_KEY, {
-      expiresIn: "6h",
-    });
-
-    const refreshToken = jwt.sign(payload, process.env.REFRESH_SECRET_KEY, {
-      expiresIn: "7d",
-    });
-
-    const newRefreshToken = new Token({
-      user: existingUser._id,
-      refreshToken,
-      accessToken,
-    });
-    await newRefreshToken.save();
-
-    res.cookie('token', accessToken);
-    res.cookie('userId', loadedUser._id.toString());
-
-    // res.cookie('token', token, {
-    //   expires: expiryTime,
-    //   httpOnly: true, // The cookie cannot be accessed by client-side scripts
-    //   secure: process.env.NODE_ENV === 'production', // Set to true in production for HTTPS
-    //   sameSite: 'None', // Required for cross-site cookies in modern browsers
+    // const accessToken = jwt.sign(payload, process.env.SECRET_KEY, {
+    //   expiresIn: "6h",
     // });
+
+    // const refreshToken = jwt.sign(payload, process.env.REFRESH_SECRET_KEY, {
+    //   expiresIn: "7d",
+    // });
+
+    // const newRefreshToken = new Token({
+    //   user: existingUser._id,
+    //   refreshToken,
+    //   accessToken,
+    // });
+    // await newRefreshToken.save();
+
+    // res.cookie('token', accessToken);
+    // res.cookie('userId', loadedUser._id.toString());
+
+    // // res.cookie('token', token, {
+    // //   expires: expiryTime,
+    // //   httpOnly: true, // The cookie cannot be accessed by client-side scripts
+    // //   secure: process.env.NODE_ENV === 'production', // Set to true in production for HTTPS
+    // //   sameSite: 'None', // Required for cross-site cookies in modern browsers
+    // // });
   
-    // res.cookie('userId', loadedUser._id.toString(), {
-    //   expires: expiryTime,
-    //   httpOnly: true,
-    //   secure: process.env.NODE_ENV === 'production',
-    //   sameSite: 'None',
-    // });
+    // // res.cookie('userId', loadedUser._id.toString(), {
+    // //   expires: expiryTime,
+    // //   httpOnly: true,
+    // //   secure: process.env.NODE_ENV === 'production',
+    // //   sameSite: 'None',
+    // // });
 
-
-    res.status(200).json({ token: accessToken, userId: loadedUser._id.toString() });
+    res.cookie('token', token);
+    res.cookie('userId', loadedUser._id.toString());
+    res.status(200).json({ token: token, userId: loadedUser._id.toString() });
+    // res.status(200).json({ token: accessToken, userId: loadedUser._id.toString() });
   } catch (err) {
     next(err);
   }

@@ -140,7 +140,7 @@ export default function MessageContainer(props) {
         />
         {props.data.otherMemberImageUrl && (
           <img
-            className="h-[90%]"
+            className="w-12 h-12 rounded-full"
             src={`${baseUrl}/${props.data.otherMemberImageUrl}`}
             alt=""
           />

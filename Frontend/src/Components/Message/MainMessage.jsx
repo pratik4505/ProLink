@@ -4,7 +4,7 @@ import MessageContainer from "./MessageContainer";
 import AddChatPopup from "./AddChatPopup";
 import GlobalContext from "../../context/GlobalContext";
 import { IoMdAddCircleOutline } from "react-icons/io";
-import "./mainMessage.scss";
+
 
 const baseUrl = import.meta.env.VITE_BASE_URL;
 export default function MainMessage() {
@@ -95,7 +95,7 @@ export default function MainMessage() {
               currChat={currChat}
             />
           ))}
-          <hr className="w-[80%] mx-auto border-gray-300" />
+         
         </div>
 
         <button

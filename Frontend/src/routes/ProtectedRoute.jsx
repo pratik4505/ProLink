@@ -4,8 +4,11 @@ import { Navigate, Outlet } from "react-router-dom";
 
 import Leftbar from "../Components/Shared/Leftbar";
 import Navbar from "../Components/Shared/Navbar";
+import FallbackLoading from "../Components/loader/FallbackLoading";
 const ProtectedRoute = () => {
   const gloContext = useContext(GlobalContext);
+
+  
 
   return gloContext.isLoggedIn ? (
     <div className="scroll-smooth w-full h-full">
@@ -19,7 +22,7 @@ const ProtectedRoute = () => {
       </div>
     </div>
   ) : (
-    <Navigate to="/Login" />
+    gloContext.globalLoading ? <FallbackLoading/>: <Navigate to="/Login" />
   );
 };
 

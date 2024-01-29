@@ -69,7 +69,7 @@ const MainRequest = () => {
   // Memoized list of RequestItem components
   const RequestList = useMemo(
     () => (
-      <div>
+      <div className="w-full">
         {Object.entries( gloContext.requests).map(([key, request]) => (
           <RequestItem
             key={key}

@@ -16,7 +16,7 @@ const Leftbar = () => {
   return (
     <div  className="hidden md:block  bg-white fixed top-20 pt-5 h-[85vh] rounded-md border w-[20%]">
       <div className="flex flex-col justify-start items-center">
-        <div className="flex flex-col items-start gap-4 w-full p-5">
+        <div className="flex flex-col items-start gap-4 w-full px-5">
           <Link
             className="flex items-center gap-2 text-lg font-medium hover:text-primary"
             to="/"

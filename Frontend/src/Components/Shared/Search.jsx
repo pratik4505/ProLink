@@ -70,7 +70,7 @@ const Search = () => {
   }, []);
 
   return (
-    <div>
+    <div className="">
       <div className="relative">
         <input
           type="text"

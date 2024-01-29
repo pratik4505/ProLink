@@ -22,7 +22,7 @@ export function GlobalProvider(props) {
   );
   const [userData, setUserData] = useState(null);
   const [isMessageOpen, setIsMessageOpen] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(true);
   const [notifications, setNotifications] = useState([]);
   const [globalLoading, setGlobalLoading] = useState(true);
   const [requests, setRequests] = useState({});
@@ -51,7 +51,7 @@ export function GlobalProvider(props) {
 
   useEffect(() => {
     // Function to send a ping to the server
-
+    setGlobalLoading(true);
     socket.on("connect", () => {
       console.log("Socket.IO connected");
     });
@@ -59,6 +59,8 @@ export function GlobalProvider(props) {
     socket.on("connect_error", (error) => {
       console.error("Socket.IO connection error:", error);
     });
+
+    window.addEventListener('beforeunload', ()=>{setGlobalLoading(true)});
 
     initialLoad();
     setGlobalLoading(false);
@@ -69,6 +71,7 @@ export function GlobalProvider(props) {
       if(peer){
         peer.destroy();
       }
+      window.removeEventListener('beforeunload', ()=>{setGlobalLoading(true)});
     };
   }, []);
 
