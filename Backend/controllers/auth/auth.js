@@ -6,7 +6,7 @@ const HttpError = require("../../models/http-error");
 const User = require("../../models/user");
 const Token=require("../../models/token");
 
-const { authenticator } = require("otplib");
+
 
 // let ElasticEmail = require('@elasticemail/elasticemail-client');
 // Temporary storage for email verification tokens with creation time

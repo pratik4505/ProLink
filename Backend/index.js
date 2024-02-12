@@ -13,14 +13,17 @@ const RNroutes=require('./routes/ReqAndNotify/RNroutes');
 const searchRoutes=require('./routes/searchRoute');
 const app =express();
 const bodyParser = require('body-parser');
-
+const MONGODB_URI=`mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@cluster0.0rkt5ow.mongodb.net/${process.env.MONGO_DEFAULT_DATABASE}?retryWrites=true&w=majority`
 const passport = require("passport");
 const multer = require('multer');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const jobRoutes = require('./routes/job/jobRoutes');
 const helmet = require('helmet');
+
 const fs = require('fs');
+
+app.use(helmet());
 
 app.use('/public', express.static(path.join(__dirname, 'public')));
 
@@ -128,10 +131,10 @@ app.use((req, res, next) => {
 
   mongoose
   .connect(
-    process.env.DATABASE_URI
+    MONGODB_URI
   )
   .then(result => {
-     const server=app.listen(3000);
+     const server=app.listen(process.env.PORT||3000);
      const socketIo= require('./socket');
      const io=socketIo.init(server);
      socketIo.runIO(io);

@@ -137,7 +137,7 @@ exports.runIO = (io) => {
     });
 
     socket.on("callUser", (data) => {
-      console.log(data);
+      // console.log(data);
       io.to(data.userToCall).emit("incomingCall", { userData: data.userData });
     })
     
