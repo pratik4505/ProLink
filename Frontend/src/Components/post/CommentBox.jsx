@@ -3,7 +3,7 @@ import "./commentBox.scss";
 
 import Comment from "./Comment";
 
-const baseUrl = import.meta.env.VITE_BASE_URL;
+const baseUrl = import.meta.env.VITE_SERVER_URL;
 const CommentBox = (props) => {
   const [newComment, setNewComment] = useState("");
   const [commentsData, setCommentsData] = useState([]);
@@ -12,7 +12,7 @@ const CommentBox = (props) => {
     try {
      
       const response = await fetch(
-        `http://localhost:3000/post/getComments/${props.postId}`,
+        `${baseUrl}/post/getComments/${props.postId}`,
        
         {  credentials: 'include',
           headers: {
@@ -42,7 +42,7 @@ const CommentBox = (props) => {
         postID: props.postId,
       };
 
-      const response = await fetch("http://localhost:3000/post/addComment", {
+      const response = await fetch(`${baseUrl}/post/addComment`, {
         method: "POST",
         credentials: 'include',
         headers: {

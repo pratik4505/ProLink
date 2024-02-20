@@ -2,7 +2,7 @@ import GlobalContext from "../../context/GlobalContext";
 import Post from "./Post";
 import { useState, useEffect,useCallback, useContext } from "react";
 import FallbackLoading from "../loader/FallbackLoading";
-const baseUrl = import.meta.env.VITE_BASE_URL;
+const baseUrl = import.meta.env.VITE_SERVER_URL;
 const postPerPage = 3;
 export default function Feeds() {
   const gloContext=useContext(GlobalContext);

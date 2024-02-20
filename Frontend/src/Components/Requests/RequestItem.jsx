@@ -1,7 +1,7 @@
 import { memo, useMemo } from "react";
 import { FaCheck, FaTimes } from 'react-icons/fa'; // Import accept and decline icons
 import { FaRegUser } from "react-icons/fa";
-const baseUrl = import.meta.env.VITE_BASE_URL;
+const baseUrl = import.meta.env.VITE_SERVER_URL;
 function capitalizeFirstLetter(str) {
   return str.charAt(0).toUpperCase() + str.slice(1);
 }

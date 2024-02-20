@@ -6,7 +6,7 @@ import GlobalContext from "../../context/GlobalContext";
 import { IoMdAddCircleOutline } from "react-icons/io";
 
 
-const baseUrl = import.meta.env.VITE_BASE_URL;
+const baseUrl = import.meta.env.VITE_SERVER_URL;
 export default function MainMessage() {
   const gloContext = useContext(GlobalContext);
   const [chats, setChats] = useState([]);

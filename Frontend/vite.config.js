@@ -15,8 +15,6 @@ export default defineConfig({
   // },
 
   plugins: [
-  
-    
    react()
   ],
   esbuild: { logOverride: { 'this-is-undefined-in-esm': 'silent' } },

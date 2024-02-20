@@ -4,8 +4,7 @@ import axios from "axios";
 import RequestItem from "./RequestItem";
 import FallbackLoading from "../loader/FallbackLoading";
 import GlobalContext from "../../context/GlobalContext";
-
-const baseUrl = import.meta.env.VITE_BASE_URL;
+const baseUrl = import.meta.env.VITE_SERVER_URL;
 
 const MainRequest = () => {
   const gloContext = useContext(GlobalContext);

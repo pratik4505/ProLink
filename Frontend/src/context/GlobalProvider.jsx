@@ -8,7 +8,7 @@ import { Link } from "react-router-dom";
 import "react-toastify/dist/ReactToastify.css";
 
 import Peer from "peerjs";
-const baseUrl = import.meta.env.VITE_BASE_URL;
+const baseUrl = import.meta.env.VITE_SERVER_URL;
 
 export function GlobalProvider(props) {
   const [socket, setSocket] = useState(

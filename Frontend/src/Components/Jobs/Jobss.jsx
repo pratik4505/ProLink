@@ -10,7 +10,7 @@ import "./jobss.scss";
 import AllJob from "./AllJob";
 import Currjob from "./Currjob";
 const jobToFetch = 5;
-
+const baseUrl = import.meta.env.VITE_SERVER_URL;
 export default function Jobss() {
   const [jobTitle, setJobTitle] = useState("");
   const [location, setLocation] = useState("");
@@ -32,7 +32,7 @@ export default function Jobss() {
 
     try {
       const response = await fetch(
-        `http://localhost:3000/jobs/getJobs?skip=${skip}&limit=${limit}`,
+        `${baseUrl}/jobs/getJobs?skip=${skip}&limit=${limit}`,
         {
           credentials: "include",
         }
@@ -64,7 +64,7 @@ export default function Jobss() {
       });
 
       const response = await fetch(
-        `http://localhost:3000/jobs/getJobSearch?${queryParams}`,
+        `${baseUrl}/jobs/getJobSearch?${queryParams}`,
         {
           credentials: "include",
         }

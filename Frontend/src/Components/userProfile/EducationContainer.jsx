@@ -10,7 +10,7 @@ const def = {
   startDate: "",
   endDate: "",
 };
-const baseUrl = import.meta.env.VITE_BASE_URL;
+const baseUrl = import.meta.env.VITE_SERVER_URL;
 
 function EducationContainer(props) {
   const [educations, setEducations] = React.useState(props.data);

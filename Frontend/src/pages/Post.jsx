@@ -4,7 +4,7 @@ import axios from 'axios';
 import GlobalContext from "../context/GlobalContext";
 import Post from "../Components/post/Post";
 import FallbackLoading from "../Components/loader/FallbackLoading";
-const baseUrl = import.meta.env.VITE_BASE_URL;
+const baseUrl = import.meta.env.VITE_SERVER_URL;
 export default function Home() {
   const [post, setPost] = useState(null); // Initialize post as null
   const { postId } = useParams();

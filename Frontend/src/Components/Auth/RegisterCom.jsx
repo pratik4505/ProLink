@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import '../../sass/styling.scss';
 import { AiOutlineUser } from 'react-icons/ai';
 import {BsKey} from 'react-icons/bs';
-
+const baseUrl = import.meta.env.VITE_SERVER_URL;
 export default function RegisterComponent() {
   const navigate = useNavigate();
   const [userName, setUsername] = useState('');
@@ -18,7 +18,7 @@ export default function RegisterComponent() {
     setLoading(true);
     try {
       
-      const response = await fetch('http://localhost:3000/signup', {
+      const response = await fetch(`${baseUrl}/signup`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

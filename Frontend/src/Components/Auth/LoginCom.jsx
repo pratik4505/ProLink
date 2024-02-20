@@ -11,7 +11,7 @@ import GlobalContext from '../../context/GlobalContext';
 import '../../sass/styling.scss';
 
 
-const baseUrl = import.meta.env.VITE_BASE_URL;
+const baseUrl = import.meta.env.VITE_SERVER_URL;
 export default function LoginComponent() {
   const gloContext=useContext(GlobalContext);
   const navigate = useNavigate();
@@ -40,7 +40,7 @@ export default function LoginComponent() {
     setLoading(true);
     try {
       
-      const response = await  fetch('http://localhost:3000/login', {
+      const response = await  fetch(`${baseUrl}/login`, {
         method: 'POST',
         credentials: 'include',
         headers: {
@@ -113,7 +113,7 @@ export default function LoginComponent() {
             Don't have an account? <Link to="/Register">Register</Link>
           </div>
              
-              <a href={`http://localhost:3000/auth/google`}> <FaGoogle/> Sign-in with Google</a>
+              <a href={`${baseUrl}/auth/google`}> <FaGoogle/> Sign-in with Google</a>
         </div>
       </div>
       {responseMessage && (

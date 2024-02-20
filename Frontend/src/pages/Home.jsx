@@ -5,13 +5,11 @@ import "../sass/HomeDesign.scss";
 
 import GlobalContext from "../context/GlobalContext";
 
-
 import Feeds from "../Components/post/Feeds";
 export default function Home() {
   return (
     <>
       <Feeds />
-      
     </>
   );
 }

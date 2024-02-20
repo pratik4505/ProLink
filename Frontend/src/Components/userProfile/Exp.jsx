@@ -1,6 +1,6 @@
 import React from "react";
 
-const baseUrl = "http://localhost:3000";
+const baseUrl = import.meta.env.VITE_SERVER_URL;
 
 export default function Exp(props) {
   function update() {

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-const baseUrl = import.meta.env.VITE_BASE_URL;
+const baseUrl = import.meta.env.VITE_SERVER_URL;
 import { FaRegUser } from "react-icons/fa";
 import GlobalContext from "../../context/GlobalContext";
 

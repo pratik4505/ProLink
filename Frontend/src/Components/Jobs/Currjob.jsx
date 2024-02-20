@@ -1,6 +1,6 @@
 
 import "./cjob.scss";
-
+const baseUrl = import.meta.env.VITE_SERVER_URL;
 export default function Currjob(props) {
   const handleApply = () => {};
 
@@ -9,7 +9,7 @@ export default function Currjob(props) {
       <div className="job-header">
         {props.data.imageUrl&&<img
           className="job-image"
-          src={`http://localhost:3000/${props.data.imageUrl}`}
+          src={`${baseUrl}/${props.data.imageUrl}`}
           alt="Job"
         />}
         <div className="job-title">{props.data.jobTitle}</div>

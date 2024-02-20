@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import "../../sass/Popup.scss";
 import "./ImageForm.scss"
 
-const baseUrl = "http://localhost:3000";
+const baseUrl = import.meta.env.VITE_SERVER_URL;
 export default function ImageForm(props) {
   const [image, setImage] = useState(null);
 

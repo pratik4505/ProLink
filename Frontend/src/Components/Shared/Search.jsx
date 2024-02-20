@@ -6,7 +6,7 @@ import debounce from "lodash/debounce";
 import { MoonLoader } from "react-spinners";
 import { MdClear } from "react-icons/md";
 
-const baseUrl = import.meta.env.VITE_BASE_URL;
+const baseUrl = import.meta.env.VITE_SERVER_URL;
 
 const Search = () => {
   const navigate = useNavigate();

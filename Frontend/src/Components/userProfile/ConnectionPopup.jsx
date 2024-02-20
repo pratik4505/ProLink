@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 
 import '../../sass/Popup.scss';
 const connectionPerPage = 10;
-const baseUrl = "http://localhost:3000";
+const baseUrl = import.meta.env.VITE_SERVER_URL;
 const ConnectionPopup = (props) => {
   const [usersData, setUsersData] = useState([]);
   const [loadMore, setLoadMore] = useState(false);

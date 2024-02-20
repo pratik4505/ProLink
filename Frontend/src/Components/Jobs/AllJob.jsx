@@ -1,6 +1,6 @@
 
 import './job.scss';
-
+const baseUrl = import.meta.env.VITE_SERVER_URL;
 export default function AllJob (props) {
 
  

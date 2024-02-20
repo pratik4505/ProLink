@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback } from "react";
 import "./likeBox.scss";
 import PostHeader from "./PostHeader";
 const userPerPage = 7;
-const baseUrl = import.meta.env.VITE_BASE_URL;
+const baseUrl = import.meta.env.VITE_SERVER_URL;
 const LikeBox = (props) => {
   const [users, setUsers] = useState([]);
   const [loadMore, setLoadMore] = useState(false);

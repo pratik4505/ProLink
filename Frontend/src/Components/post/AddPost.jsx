@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 import "./AddPost.scss"
-const baseUrl = import.meta.env.VITE_BASE_URL;
+const baseUrl = import.meta.env.VITE_SERVER_URL;
 export default function AddPost(props) {
   const [formdata, setFormdata] = useState({
     content: '',

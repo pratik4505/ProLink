@@ -13,8 +13,7 @@ import GlobalContext from "../../context/GlobalContext";
 import AddPostup from "./AddPostup";
 import ConnectionPopup from "./ConnectionPopup";
 import './userProfile.scss'
-
-const baseUrl = import.meta.env.VITE_BASE_URL;
+const baseUrl = import.meta.env.VITE_SERVER_URL;
 
 const UserProfile = (props) => {
   const [profileData, setProfileData] = useState(null);

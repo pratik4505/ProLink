@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 
-const baseUrl = "http://localhost:3000";
+const baseUrl = import.meta.env.VITE_SERVER_URL;
 let chatsPerPage = 5;
 
 export default function AddChatPopup(props) {

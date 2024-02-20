@@ -1,5 +1,7 @@
 
 require('dotenv' ).config();
+
+
 const express=require('express');
 const mongoose = require('mongoose');
 const HttpError = require('./models/http-error');
@@ -20,10 +22,11 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const jobRoutes = require('./routes/job/jobRoutes');
 const helmet = require('helmet');
-
+const cors=require('cors');
 const fs = require('fs');
 
 app.use(helmet());
+
 
 app.use('/public', express.static(path.join(__dirname, 'public')));
 
@@ -63,17 +66,27 @@ const upload = multer({ storage: storage, fileFilter: fileFilter }).fields([
 
 
 app.use(helmet());
-app.use((req, res, next) => {
- 
-  
-  res.setHeader('Access-Control-Allow-Origin', req.get('Origin')); 
-  res.setHeader('Access-Control-Allow-Methods', 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'Origin, Content-Type, Authorization');
-  res.setHeader('Access-Control-Allow-Credentials', 'true');
 
-  
-  next();
-});
+const allowedOrigins = process.env.NODE_ENV === 'production' ? process.env.PRODUCTION_ORIGIN : 'http://localhost:5173';
+app.use(
+  cors({
+    origin: (origin, callback) => {
+      if ( process.env.NODE_ENV === 'production') {
+        if (!origin || allowedOrigins===origin) {
+          callback(null, true);
+        } else {
+          callback(new Error(`${origin} not allowed by cors`));
+        }
+      } else {
+        callback(null, true);
+      }
+    },
+    optionsSuccessStatus: 200,
+    credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  }),
+);
+
 
 
 app.use(passport.initialize());
@@ -89,12 +102,6 @@ app.use(bodyParser.json());
 
 
 app.use(upload);
-
-
-
-
-
-
 
 app.use(userRoutes)
 app.use(googleAuth);
@@ -116,7 +123,9 @@ app.use((req, res, next) => {
     if (res.headerSent) {
       return next(error);
     }
-    res.status(error.code || 500);
+    
+   res.status(500);
+   
     if(error.data){
       res.json({ message: error.message || 'An unknown error occurred!',data:error.data });
     }

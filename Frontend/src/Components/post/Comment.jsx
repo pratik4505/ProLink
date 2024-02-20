@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import './Comment.scss';
-
+const baseUrl = import.meta.env.VITE_SERVER_URL;
 const formatDate = (dateString) => {
   const options = { year: "numeric", month: "2-digit", day: "2-digit" };
   return new Date(dateString).toLocaleDateString(undefined, options);
@@ -13,7 +13,7 @@ const Comment = (props) => {
 
   const handleAddReply = async () => {
     try {
-      const response = await fetch("http://localhost:3000/post/comment/addReply", {
+      const response = await fetch(`${baseUrl}/post/comment/addReply`, {
         method: "POST",
         credentials: 'include',
         headers: {

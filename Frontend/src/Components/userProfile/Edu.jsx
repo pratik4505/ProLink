@@ -1,6 +1,6 @@
 
 
-const baseUrl = import.meta.env.VITE_BASE_URL;
+const baseUrl = import.meta.env.VITE_SERVER_URL;
 export default function Edu(props){
 
   function update(){

@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useContext, useCallback } from "react";
 import "./messageContainer.scss";
-const baseUrl = import.meta.env.VITE_BASE_URL;
+const baseUrl = import.meta.env.VITE_SERVER_URL;
 import { Cookies } from "react-cookie";
 import GlobalContext from "../../context/GlobalContext";
 import { v4 as uuidv4 } from "uuid";
@@ -110,7 +110,7 @@ export default function MessageContainer(props) {
 
     try {
       const response = await fetch(
-        "http://localhost:3000/message/postMessage",
+        `${baseUrl}/message/postMessage`,
         {
           method: "POST",
           credentials: "include",
