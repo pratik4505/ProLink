@@ -10,7 +10,6 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@esbuild-plugins/node-globals-polyfill": "^0.2.3",
     "@headlessui/react": "^1.7.18",
     "axios": "^1.6.5",
     "lodash": "^4.17.21",
@@ -24,7 +23,6 @@
     "react-scroll-to-bottom": "^4.2.0",
     "react-spinners": "^0.13.8",
     "react-toastify": "^8.0.0",
-    "rollup-plugin-node-polyfills": "^0.2.1",
     "sass": "^1.69.5",
     "socket.io-client": "^4.7.2",
     "util": "^0.12.5",
