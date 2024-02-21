@@ -1,4 +1,4 @@
-import React, { useMemo, useEffect, memo } from "react";
+import  {  memo } from "react";
 import { Link } from "react-router-dom";
 import { AiOutlineHome } from "react-icons/ai";
 import { BsBriefcase } from "react-icons/bs";

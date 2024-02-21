@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState} from "react";
 import "./post.scss";
 import PostHeader from "./PostHeader";
 import CommentBox from "./CommentBox";
@@ -7,7 +7,7 @@ import { FaRegThumbsUp } from "react-icons/fa";
 import { FaHandsClapping } from "react-icons/fa6";
 import { FaLightbulb } from "react-icons/fa";
 import { FaHeart } from "react-icons/fa";
-import GlobalContext from "../../context/GlobalContext";
+
 const baseUrl = import.meta.env.VITE_SERVER_URL;
 
 const formatDate = (dateString) => {

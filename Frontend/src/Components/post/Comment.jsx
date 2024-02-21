@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import './Comment.scss';
+import { useState } from 'react';
+import './comment.scss';
 const baseUrl = import.meta.env.VITE_SERVER_URL;
 const formatDate = (dateString) => {
   const options = { year: "numeric", month: "2-digit", day: "2-digit" };
