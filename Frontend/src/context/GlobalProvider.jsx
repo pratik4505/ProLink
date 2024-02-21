@@ -12,7 +12,7 @@ const baseUrl = import.meta.env.VITE_SERVER_URL;
 
 export function GlobalProvider(props) {
   const [socket, setSocket] = useState(
-    io("ws://localhost:3000", {
+    io(baseUrl.replace("http", "ws"), {
       transports: ["websocket"],
       upgrade: false,
       withCredentials: true,
