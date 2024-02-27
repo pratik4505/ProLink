@@ -123,8 +123,8 @@ exports.login = async (req, res, next) => {
     // //   sameSite: 'None',
     // // });
 
-    res.cookie('token', token);
-    res.cookie('userId', loadedUser._id.toString());
+    res.cookie('token', token,{ secure: true });
+    res.cookie('userId', loadedUser._id.toString() ,{ secure: true });
     res.status(200).json({ token: token, userId: loadedUser._id.toString() });
     // res.status(200).json({ token: accessToken, userId: loadedUser._id.toString() });
   } catch (err) {
