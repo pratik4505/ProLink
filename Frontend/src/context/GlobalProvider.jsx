@@ -77,31 +77,36 @@ export function GlobalProvider(props) {
 
   const initialLoad = useCallback(async () => {
     const data=JSON.parse(localStorage.getItem('userData'));
-    const userId = data.userId;
-    const token = data.token;
-   
-    if (token && userId) {
-      try {
-        const response = await API.get(`/isAuth`);
-
-        if (response.status === 200) {
-         
-
-          setUserData({ ...response.data.userData });
-          setIsLoggedIn(true);
-          socket.emit("setup", userId);
-          listen();
-        } else {
+    if(data){
+      const userId = data.userId;
+      const token = data.token;
+     
+      if (token && userId) {
+        try {
+          const response = await API.get(`/isAuth`);
+  
+          if (response.status === 200) {
+           
+  
+            setUserData({ ...response.data.userData });
+            setIsLoggedIn(true);
+            socket.emit("setup", userId);
+            listen();
+          } else {
+            setIsLoggedIn(false);
+            console.log("user Not autorized");
+          }
+        } catch (error) {
           setIsLoggedIn(false);
-          console.log("user Not autorized");
+          console.error("An error occurred while authorizing:", error);
         }
-      } catch (error) {
+      } else {
         setIsLoggedIn(false);
-        console.error("An error occurred while authorizing:", error);
       }
     } else {
       setIsLoggedIn(false);
     }
+   
   }, []);
 
   const listen = () => {

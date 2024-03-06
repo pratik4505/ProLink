@@ -11,7 +11,7 @@ import { BiUserCircle } from "react-icons/bi";
 
 const Leftbar = () => {
  
-  const ownerId = JSON.parse(localStorage.getItem('userData')).userId;
+  const ownerId = JSON.parse(localStorage.getItem('userData'))?.userId;
 
   return (
     <div  className="hidden md:block  bg-white fixed top-20 pt-5 h-[85vh] rounded-md border w-[20%]">
