@@ -15,15 +15,15 @@ variables:
   webAppName: 'Prolink_server'
 
   # Environment name
-  GOOGLE_CLIENT_ID:'426818661248-e55b3f5rmjq7ofroatm5c98fiurspac0.apps.googleusercontent.com'
-  GOOGLE_CLIENT_SECRET:'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'
-  PRODUCTION_ORIGIN:'https://prolinkserver.vercel.app'
-  NODE_ENV:'development'
-  MONGO_USER:'pratik4505pn'
-  MONGO_PASSWORD:'XifD6MF0o8NAPwO0'
-  MONGO_DEFAULT_DATABASE:'websterDatabase'
-  SECRET_KEY:'triosecretsecrecy'
-  REFRESH_SECRET_KEY:'gbddnhcyhduennmssjhx'
+  GOOGLE_CLIENT_ID: '426818661248-e55b3f5rmjq7ofroatm5c98fiurspac0.apps.googleusercontent.com'
+  GOOGLE_CLIENT_SECRET: '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'
+  PRODUCTION_ORIGIN: 'https://prolinkserver.vercel.app'
+  NODE_ENV: 'development'
+  MONGO_USER: 'pratik4505pn'
+  MONGO_PASSWORD: 'XifD6MF0o8NAPwO0'
+  MONGO_DEFAULT_DATABASE: 'websterDatabase'
+  SECRET_KEY: 'triosecretsecrecy'
+  REFRESH_SECRET_KEY: 'gbddnhcyhduennmssjhx'
 
 
   # Agent VM image name
