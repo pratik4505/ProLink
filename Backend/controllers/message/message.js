@@ -59,7 +59,7 @@ exports.getMessages = async (req, res) => {
       
     const revMessages = messages.reverse();
 
-    res.json(revMessages);
+    res.status(200).json(revMessages);
   } catch (error) {
     console.error("Error fetching messages:", error);
     res.status(500).json({ error: "Internal Server Error" });
@@ -118,7 +118,7 @@ exports.getPossibleChats = async (req, res) => {
         { userName: 1, imageUrl: 1, _id: 1 }
       );
   
-      res.json(usersData);
+      res.status(200).json(usersData);
     } catch (error) {
       console.error('Error in /message/getPossibleChats:', error);
       res.status(500).json({ error: 'Internal Server Error' });
@@ -156,7 +156,7 @@ exports.getPossibleChats = async (req, res) => {
       const savedChat = await newChat.save();
   
       // Return the created chat in the response
-      res.json(savedChat);
+      res.status(200).json(savedChat);
     } catch (error) {
       console.error('Error creating chat:', error);
       res.status(500).json({ error: 'Internal Server Error' });

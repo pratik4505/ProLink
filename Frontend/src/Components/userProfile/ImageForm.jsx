@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import "../../sass/Popup.scss";
 import "./ImageForm.scss"
-
+import {API} from "../../utils/api"
 const baseUrl = import.meta.env.VITE_SERVER_URL;
 export default function ImageForm(props) {
   const [image, setImage] = useState(null);
@@ -19,14 +19,10 @@ export default function ImageForm(props) {
     formData.append("image", image);
 
     try {
-      const response = await fetch(`${baseUrl}/profile/addProfileImage`, {
-        method: "POST",
-        credentials: 'include',
-        body: formData,
-      });
+      const response = await API.post(`/profile/addProfileImage`, formData);
 
-      if (response.ok) {
-        const responseData = await response.json();
+      if (response.status===200) {
+        const responseData =response.data;
         props.imageHandler(responseData.imageUrl);
       } else {
         console.error("Failed to upload profile image");

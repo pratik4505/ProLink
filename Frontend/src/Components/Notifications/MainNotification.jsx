@@ -4,8 +4,9 @@ import Notification from './Notification'; // Import the Notification subcompone
 import './mainNotification.scss'; // Import the CSS file for styling
 import CommonLoading from '../loader/CommonLoading';
 import GlobalContext from '../../context/GlobalContext';
+import {API} from "../../utils/api"
 const perPage=40;
-const baseUrl="http://localhost:3000";
+
 export default function MainNotification() {
   const gloContext=useContext(GlobalContext);
   const [loadMore,setLoadMore]=useState(false);
@@ -14,10 +15,8 @@ export default function MainNotification() {
   const loadNotify = async () => {
     try {
       const skip=gloContext.notifications.length;
-      const response = await fetch(`${baseUrl}/notification/getNotifications?limit=${perPage}&skip=${skip}`,{
-        credentials:'include'
-      });
-      const data = await response.json();
+      const response = await API.get(`/notification/getNotifications?limit=${perPage}&skip=${skip}`);
+      const data =  response.data;
 
       if(data.length>0){
         setLoadMore(true);

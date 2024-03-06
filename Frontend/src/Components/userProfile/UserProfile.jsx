@@ -12,7 +12,8 @@ import SectionPopup from "./SectionPopup";
 import GlobalContext from "../../context/GlobalContext";
 import AddPostup from "./AddPostup";
 import ConnectionPopup from "./ConnectionPopup";
-import './userProfile.scss'
+import "./userProfile.scss";
+import { API } from "../../utils/api";
 const baseUrl = import.meta.env.VITE_SERVER_URL;
 
 const UserProfile = (props) => {
@@ -27,20 +28,15 @@ const UserProfile = (props) => {
 
   const gloContext = useContext(GlobalContext);
 
- console.log(gloContext.socket)
+  console.log(gloContext.socket);
 
   const initialLoad = useCallback(async () => {
     try {
       const ownerId = props.ownerId;
-      const response = await fetch(
-        `${baseUrl}/profile/getUserProfile/${ownerId}`,
-        {
-          credentials: "include",
-        }
-      );
-      const data = await response.json();
-      console.log(data);
-      if (response.ok) {
+      const response = await API.get(`profile/getUserProfile/${ownerId}`);
+      const data = response.data;
+
+      if (response.status === 200) {
         setProfileData(data);
       } else {
         console.error(data.message);
@@ -68,16 +64,13 @@ const UserProfile = (props) => {
     }));
 
     try {
-      const response = await fetch(`${baseUrl}/profile/postDetails`, {
-        method: "POST",
-        credentials: "include",
+      const response = await API.post(`/profile/postDetails`, data, {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(data),
       });
 
-      if (response.ok) {
+      if (response.status === 200) {
         console.log("Details updated successfully");
       } else {
         console.error("Failed to update details");
@@ -95,16 +88,13 @@ const UserProfile = (props) => {
     }));
 
     try {
-      const response = await fetch(`${baseUrl}/profile/postAbout`, {
-        method: "POST",
-        credentials: "include",
+      const response = await API.post(`/profile/postAbout`, data, {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(data),
       });
 
-      if (response.ok) {
+      if (response.status === 200) {
         console.log("About updated successfully");
       } else {
         console.error("Failed to update about");
@@ -133,15 +123,13 @@ const UserProfile = (props) => {
 
     try {
       // Send the key to the server to delete the skill
-      const response = await fetch(`${baseUrl}/profile/deleteSkill/${key}`, {
-        method: "DELETE",
-        credentials: "include",
+      const response = await API.delete(`/profile/deleteSkill/${key}`, {
         headers: {
           "Content-Type": "application/json",
         },
       });
 
-      if (response.ok) {
+      if (response.status === 200) {
         console.log("Skill deleted successfully");
       } else {
         console.error("Failed to delete skill");
@@ -177,28 +165,29 @@ const UserProfile = (props) => {
 
     try {
       // Send the endorsement data to the server
-      const response = await fetch(`${baseUrl}/profile/endorse`, {
-        method: "POST",
-        credentials: "include",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
+      const response = await API.post(
+        `/profile/endorse`,
+        {
           ownerId: props.ownerId,
           key,
           isEndorsed,
           recommendation,
-        }),
-      });
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
 
-      if (response.ok) {
+      if (response.status === 200) {
         console.log("Endorsement updated successfully");
 
         gloContext.socket.emit("endorsement", {
           to: props.ownerId,
           skill: skill.skill,
           recommendation,
-          userData:gloContext.userData
+          userData: gloContext.userData,
         });
       } else {
         console.error("Failed to update endorsement");
@@ -230,16 +219,17 @@ const UserProfile = (props) => {
 
     // Make a POST request to update the skill on the server
     try {
-      const response = await fetch(`${baseUrl}/profile/addSkill`, {
-        method: "POST",
-        credentials: "include",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ skillId, skill: value }),
-      });
+      const response = await API.post(
+        `/profile/addSkill`,
+        { skillId, skill: value },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
 
-      if (response.ok) {
+      if (response.status === 200) {
         console.log("Skill added successfully");
       } else {
         console.error("Failed to add skill");
@@ -263,16 +253,17 @@ const UserProfile = (props) => {
 
     // Send the id and data to the 'profile/addSection' endpoint
     try {
-      const response = await fetch(`${baseUrl}/profile/addSection`, {
-        method: "POST",
-        credentials: "include",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ id, data }),
-      });
+      const response = await API.post(
+        `/profile/addSection`,
+        { id, data },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
 
-      if (response.ok) {
+      if (response.status === 200) {
         console.log("Section added successfully");
       } else {
         console.error("Failed to add section");
@@ -287,14 +278,12 @@ const UserProfile = (props) => {
 
     try {
       // Make a delete request to the server
-      const response = await fetch(`${baseUrl}/profile/deleteSection/${key}`, {
-        method: "DELETE",
-        credentials: "include",
+      const response = await API.delete(`/profile/deleteSection/${key}`, {
         headers: {
           "Content-Type": "application/json",
         },
       });
-      if (response.ok) {
+      if (response.status === 200) {
         console.log(`Section with key ${key} deleted successfully.`);
         const updatedSections = { ...profileData.moreSections };
         delete updatedSections[key];
@@ -316,25 +305,24 @@ const UserProfile = (props) => {
     const ownerId = props.ownerId;
 
     try {
-      const response = await fetch(`${baseUrl}/profile/postRequest`, {
-        method: "POST",
-        credentials: "include",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ type: "connect", ownerId }),
-      });
+      const response = await API.post(
+        `/profile/postRequest`,
+        { type: "connect", ownerId },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
 
-      if (response.ok) {
-        
-        
+      if (response.status === 200) {
         gloContext.socket.emit("newRequest", {
           to: ownerId,
-         
+
           requestType: "Connect Request",
-          userData:gloContext.userData
+          userData: gloContext.userData,
         });
-       
+
         console.log("Connect request sent successfully");
       } else {
         console.error("Failed to send connect request");
@@ -345,30 +333,27 @@ const UserProfile = (props) => {
   };
 
   const messageRequest = async () => {
-   
-
     try {
       const ownerId = props.ownerId;
       setProfileData((prev) => ({ ...prev, isMessaging: true }));
-      const response = await fetch(`${baseUrl}/profile/postRequest`, {
-        method: "POST",
-        credentials: "include",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ type: "message", ownerId }),
-      });
+      const response = await API.post(
+        `/profile/postRequest`,
+        { type: "message", ownerId },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
 
-      if (response.ok) {
-        
-        
+      if (response.status === 200) {
         gloContext.socket.emit("newRequest", {
           to: ownerId,
-         
+
           requestType: "Message Request",
-          userData:gloContext.userData
+          userData: gloContext.userData,
         });
-      
+
         console.log("Message request sent successfully");
       } else {
         console.error("Failed to send message request");
@@ -384,16 +369,16 @@ const UserProfile = (props) => {
         <div className="info">
           <div className="container mt-3">
             <div className="row">
-              
-                <div className="w-20 h-20 m-3 rounded-full">
-                  {profileData.imageUrl&&<img
+              <div className="w-20 h-20 m-3 rounded-full">
+                {profileData.imageUrl && (
+                  <img
                     src={`${baseUrl}/${profileData.imageUrl}`}
                     alt="Profile Picture"
                     className="img-fluid rounded-circle"
-                  />}
-                </div>
-                
-                
+                  />
+                )}
+              </div>
+
               {postPopup && (
                 <AddPostup
                   type="user"
@@ -405,26 +390,39 @@ const UserProfile = (props) => {
               {!profileData.isOwner && (
                 <div>
                   {!profileData.isConnection && !profileData.isConnecting && (
-                    <button onClick={connectRequest} className="profile-connect-btn btn">Connect</button>
+                    <button
+                      onClick={connectRequest}
+                      className="profile-connect-btn btn"
+                    >
+                      Connect
+                    </button>
                   )}
                   {profileData.isConnecting && (
-                    <button className="profile-connecting-btn btn">connection Request Sent</button>
+                    <button className="profile-connecting-btn btn">
+                      connection Request Sent
+                    </button>
                   )}
                   {!profileData.isConnection &&
                     !profileData.isConnecting &&
                     !profileData.isMessaging && (
-                      <button onClick={messageRequest} className="message-Request-btn btn">Message</button>
+                      <button
+                        onClick={messageRequest}
+                        className="message-Request-btn btn"
+                      >
+                        Message
+                      </button>
                     )}
                   {!profileData.isConnection &&
                     !profileData.isConnecting &&
                     profileData.isMessaging && (
-                      <button className="message-Requestsent-btn btn">Message Request Sent</button>
+                      <button className="message-Requestsent-btn btn">
+                        Message Request Sent
+                      </button>
                     )}
                 </div>
               )}
-              
+
               <div className="col-md-8 summary-profile">
-               
                 <h1>{profileData.userName}</h1>
                 <p>{profileData.summary}</p>
                 <p>{`${profileData.industry}`}</p>
@@ -442,33 +440,44 @@ const UserProfile = (props) => {
                   />
                 )}
               </div>
-              
+
               <div className="All-btns-profile">
-              {profileData.isOwner && (
-                  <button onClick={() => setDetailPopup(true)} className="update-details-btn btn">
+                {profileData.isOwner && (
+                  <button
+                    onClick={() => setDetailPopup(true)}
+                    className="update-details-btn btn"
+                  >
                     Update details
                   </button>
                 )}
-              {profileData.isOwner && (
-                <button onClick={() => setPostPopup(true)} className="add-post-btn btn">Add post</button>
-              )}
-              {profileData.isOwner && (
-                  <button onClick={() => setImagePopup(true)} className="btn update-image-profile">
+                {profileData.isOwner && (
+                  <button
+                    onClick={() => setPostPopup(true)}
+                    className="add-post-btn btn"
+                  >
+                    Add post
+                  </button>
+                )}
+                {profileData.isOwner && (
+                  <button
+                    onClick={() => setImagePopup(true)}
+                    className="btn update-image-profile"
+                  >
                     Update image
                   </button>
                 )}
               </div>
               {imagePopup && (
-                  <ImageForm
-                    onCancel={() => setImagePopup(false)}
-                    imageHandler={(url) =>
-                      setProfileData((prev) => ({
-                        ...prev,
-                        imageUrl: `${baseUrl}/${url}`,
-                      }))
-                    }
-                  />
-                )}
+                <ImageForm
+                  onCancel={() => setImagePopup(false)}
+                  imageHandler={(url) =>
+                    setProfileData((prev) => ({
+                      ...prev,
+                      imageUrl: `${baseUrl}/${url}`,
+                    }))
+                  }
+                />
+              )}
               {detailPopup && (
                 <DetailForm
                   detailHandler={detailFinish}
@@ -481,18 +490,20 @@ const UserProfile = (props) => {
                   cancel={() => setDetailPopup(false)}
                 />
               )}
-              
             </div>
 
             <hr></hr>
 
             <div className="row  mt-4 about-section">
-            <div className="header-about-section">
+              <div className="header-about-section">
                 <h1>About</h1>
                 <p>{profileData.about}</p>
               </div>
               {profileData.isOwner && (
-                <button onClick={() => setAboutPopup(true)} className="update-about-btn btn">
+                <button
+                  onClick={() => setAboutPopup(true)}
+                  className="update-about-btn btn"
+                >
                   update About
                 </button>
               )}
@@ -524,33 +535,35 @@ const UserProfile = (props) => {
             <hr></hr>
 
             <div className="container mt-3">
-            <div className="scrolling">
-              <div className="experience-header-profile">
-            
-                <h1>Skills</h1>
-                {profileData.isOwner && (
-                  <button onClick={() => setSkillPopup(true)} className="add btn btn-primary add-skills-profilesec-btn">
-                    Add skill{" "}
-                  </button>
-                )}
-                {skillPopup && (
-                  <AddSkillPopup
-                    onCancel={() => setSkillPopup(false)}
-                    onSubmit={onAddSkill}
-                  />
-                )}
-                
-                {Object.entries(profileData.skills).map(([key, value]) => (
-                  <Skill
-                    key={key}
-                    data={value}
-                    onEndorse={onEndorse}
-                    onDelete={onDeleteSkill}
-                    isOwner={profileData.isOwner}
-                    isConnection={profileData.isConnection}
-                    skillKey={key}
-                  />
-                ))}
+              <div className="scrolling">
+                <div className="experience-header-profile">
+                  <h1>Skills</h1>
+                  {profileData.isOwner && (
+                    <button
+                      onClick={() => setSkillPopup(true)}
+                      className="add btn btn-primary add-skills-profilesec-btn"
+                    >
+                      Add skill{" "}
+                    </button>
+                  )}
+                  {skillPopup && (
+                    <AddSkillPopup
+                      onCancel={() => setSkillPopup(false)}
+                      onSubmit={onAddSkill}
+                    />
+                  )}
+
+                  {Object.entries(profileData.skills).map(([key, value]) => (
+                    <Skill
+                      key={key}
+                      data={value}
+                      onEndorse={onEndorse}
+                      onDelete={onDeleteSkill}
+                      isOwner={profileData.isOwner}
+                      isConnection={profileData.isConnection}
+                      skillKey={key}
+                    />
+                  ))}
                 </div>
               </div>
             </div>
@@ -569,7 +582,10 @@ const UserProfile = (props) => {
                   </div>
                 ))}
               {profileData.isOwner && (
-                <button onClick={() => setSectionPopup(true)} className="btn btn-primary">
+                <button
+                  onClick={() => setSectionPopup(true)}
+                  className="btn btn-primary"
+                >
                   Add section
                 </button>
               )}
@@ -582,10 +598,10 @@ const UserProfile = (props) => {
             </div>
           </div>
         </div>
-        
+
         <hr></hr>
         <div className="last-profile-ele">
-        <p>&copy;Lync:All rights Reserved</p>
+          <p>&copy;Lync:All rights Reserved</p>
         </div>
       </div>
     )

@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Exp from "./Exp"; // Assuming you have a component named Exp for rendering individual experiences
 import '../../sass/Popup.scss';
 import './Experience.scss'
+import {API} from "../../utils/api"
 import { v4 as uuidv4 } from "uuid";
 
 const def = {
@@ -37,8 +38,8 @@ function ExperienceContainer(props) {
 
     const id = uuidv4();
     const apiUrl = isUpdating
-      ? `${baseUrl}/profile/postExperience/${isUpdating}`
-      : `${baseUrl}/profile/postExperience/${id}`;
+      ? `/profile/postExperience/${isUpdating}`
+      : `/profile/postExperience/${id}`;
 
       let data=formdata;
     const formData = new FormData();
@@ -51,16 +52,13 @@ function ExperienceContainer(props) {
     formData.append("endDate", formdata.endDate);
 
     try {
-      const response = await fetch(apiUrl, {
-        method: "POST",
-        credentials: 'include',
-        body: formData,
-      });
+      const response = await API.post(apiUrl, formData
+       );
 
-      if (response.ok) {
+      if (response.status===200) {
         console.log("Experience details updated successfully");
         const key = isUpdating || id;
-        const responseData = await response.json();
+        const responseData = response.data;
         setExperiences((prev)=>{
           return {...prev,[key]:responseData[key]}
         })

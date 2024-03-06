@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import '../../sass/Popup.scss';
 import "./AddPost.scss"
+import {API} from "../../utils/api"
 const baseUrl = import.meta.env.VITE_SERVER_URL;
 export default function AddPost(props) {
   const [formdata, setFormdata] = useState({
@@ -36,13 +37,9 @@ export default function AddPost(props) {
     formData.append('type', formdata.type);
 
     try {
-      const response = await fetch(`${baseUrl}/addPost`, {
-        method: 'POST',
-        credentials: 'include',
-        body: formData,
-      });
+      const response = await API.post(`/addPost`,formData);
 
-      if (response.ok) {
+      if (response.status===200) {
         console.log('Post added successfully');
         
       } else {

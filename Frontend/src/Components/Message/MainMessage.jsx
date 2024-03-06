@@ -4,7 +4,7 @@ import MessageContainer from "./MessageContainer";
 import AddChatPopup from "./AddChatPopup";
 import GlobalContext from "../../context/GlobalContext";
 import { IoMdAddCircleOutline } from "react-icons/io";
-
+import { API } from "../../utils/api";
 
 const baseUrl = import.meta.env.VITE_SERVER_URL;
 export default function MainMessage() {
@@ -15,12 +15,10 @@ export default function MainMessage() {
 
   const loadChats = async () => {
     try {
-      const response = await fetch(`${baseUrl}/message/getChats`, {
-        credentials: "include",
-      });
+      const response = await API.get(`/message/getChats`);
 
-      if (response.ok) {
-        const data = await response.json();
+      if (response.status === 200) {
+        const data = response.data;
         setChats(data); // Update the state with the received chat data
       } else {
         console.error("Failed to fetch chats");
@@ -36,13 +34,10 @@ export default function MainMessage() {
 
   const chatAdder = async (id) => {
     try {
-      const response = await fetch(`${baseUrl}/message/createChat/${id}`, {
-        method: "GET",
-        credentials: "include",
-      });
+      const response = await API.get(`/message/createChat/${id}`);
 
-      if (response.ok) {
-        const data = await response.json();
+      if (response.status===200) {
+        const data = response.data;
         gloContext.socket.emit("joinChat", {
           chatId: data.chatId,
           otherId: data.otherMemberId,
@@ -95,7 +90,6 @@ export default function MainMessage() {
               currChat={currChat}
             />
           ))}
-         
         </div>
 
         <button

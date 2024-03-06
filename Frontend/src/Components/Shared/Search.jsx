@@ -1,12 +1,12 @@
 import { useState, useEffect, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
-import debounce from "lodash/debounce";
 
+import debounce from "lodash/debounce";
+import {API} from "../../utils/api"
 import { MoonLoader } from "react-spinners";
 import { MdClear } from "react-icons/md";
 
-const baseUrl = import.meta.env.VITE_SERVER_URL;
+
 
 const Search = () => {
   const navigate = useNavigate();
@@ -28,10 +28,8 @@ const Search = () => {
       debounce((q) => {
         setLoading(true);
         const encodedQuery = encodeURIComponent(q);
-        axios
-          .get(`${baseUrl}/search?q=${encodedQuery}`, {
-            withCredentials: true,
-          })
+        API
+          .get(`/search?q=${encodedQuery}`)
           .then((res) => {
             const { posts, users, companies } = res.data;
             setPosts(posts);

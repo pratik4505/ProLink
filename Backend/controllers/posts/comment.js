@@ -4,7 +4,7 @@ const User = require('../../models/user');
 const Comment = require('../../models/comment');
 
 
-
+ 
 exports.getComments=async (req, res) => {
   try {
     const postId = req.params.postId;

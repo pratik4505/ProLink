@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-
+import {API} from "../../utils/api"
 import "./AddPost.scss"
 const baseUrl = import.meta.env.VITE_SERVER_URL;
 export default function AddPost(props) {
@@ -26,7 +26,7 @@ export default function AddPost(props) {
       [id]: e.target.files[0],
     }));
   };
-
+ 
   const handleSubmit = async () => {
     const formData = new FormData();
     formData.append('content', formdata.content);
@@ -36,13 +36,13 @@ export default function AddPost(props) {
     formData.append('type', formdata.type);
 
     try {
-      const response = await fetch(`${baseUrl}/addPost`, {
-        method: 'POST',
-        credentials: 'include',
-        body: formData,
+      const response = await API.post(`/addPost`, formData,{
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
       });
 
-      if (response.ok) {
+      if (response.status===200) {
         console.log('Post added successfully');
         
       } else {

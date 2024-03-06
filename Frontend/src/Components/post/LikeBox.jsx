@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback } from "react";
 import "./likeBox.scss";
 import PostHeader from "./PostHeader";
+import { API } from "../../utils/api";
 const userPerPage = 7;
 const baseUrl = import.meta.env.VITE_SERVER_URL;
 const LikeBox = (props) => {
@@ -9,17 +10,15 @@ const LikeBox = (props) => {
 
   const loadData = useCallback(async () => {
     try {
-      const response = await fetch(
-        `${baseUrl}/post/likesByUser?postId=${props.postId}&skip=${users.length}&limit=${userPerPage}`,{
-            credentials: 'include',
-        }
+      const response = await API.get(
+        `/post/likesByUser?postId=${props.postId}&skip=${users.length}&limit=${userPerPage}`
       );
 
-      if (!response.ok) {
+      if (response.status!==200) {
         throw new Error("Failed to fetch likes data");
       }
 
-      const result = await response.json();
+      const result = response.data;
       const { data, hasMore } = result;
       console.log(data, hasMore);
       setUsers((prevUsers) => [...prevUsers, ...data]);

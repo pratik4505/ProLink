@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Dialog, Transition } from "@headlessui/react";
-
+import { API } from "../../utils/api";
 const baseUrl = import.meta.env.VITE_SERVER_URL;
 let chatsPerPage = 5;
 
@@ -11,21 +11,23 @@ export default function AddChatPopup(props) {
 
   const dataLoad = async () => {
     try {
-      const response = await fetch(`${baseUrl}/message/getPossibleChats`, {
-        method: "POST",
-        credentials: "include",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
+      const response = await API.post(
+        `/message/getPossibleChats`,
+        {
           chats: props.chats,
           limit: chatsPerPage,
           skip: chatData.length,
-        }),
-      });
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+          
+        }
+      );
 
-      if (response.ok) {
-        const data = await response.json();
+      if (response.status===200) {
+        const data = await response.data;
         if (data.length > 0) {
           setChatData((prevData) => [...prevData, ...data]);
           setLoadMore(true);
@@ -36,10 +38,7 @@ export default function AddChatPopup(props) {
         console.error("Failed to fetch possible chats");
       }
     } catch (error) {
-      console.error(
-        "An error occurred while fetching possible chats:",
-        error
-      );
+      console.error("An error occurred while fetching possible chats:", error);
     }
   };
 
@@ -72,7 +71,10 @@ export default function AddChatPopup(props) {
             <Dialog.Overlay className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
           </Transition.Child>
 
-          <span className="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">
+          <span
+            className="hidden sm:inline-block sm:align-middle sm:h-screen"
+            aria-hidden="true"
+          >
             &#8203;
           </span>
 

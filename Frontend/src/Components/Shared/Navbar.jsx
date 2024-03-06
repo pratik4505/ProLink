@@ -7,7 +7,7 @@ import { AiOutlineBars } from "react-icons/ai";
 import { RxCross1 } from "react-icons/rx";
 import { FaBell } from "react-icons/fa"; // Import notification icon
 import VideoCall from "../Message/VideoCall";
-import { Cookies } from "react-cookie";
+
 import MainNotification from "../Notifications/MainNotification";
 import Search from "./Search";
 import GlobalContext from "../../context/GlobalContext";
@@ -18,8 +18,8 @@ const Navbar = ({ toggleLeftbar, showLeftbar }) => {
   const [loggingOut, setLoggingOut] = useState(false);
   const [showDropdown, setShowDropdown] = useState(false);
   const [showNotifications, setShowNotifications] = useState(false); // New state for notifications
-  const cookies = new Cookies();
-  const ownerId = cookies.get("userId");
+ 
+  const ownerId = JSON.parse(localStorage.getItem('userData')).userId;
   const gloContext = useContext(GlobalContext);
   const dropdownRef = useRef(null);
   const notificationButtonRef = useRef(null); // Ref for the notification button
@@ -35,8 +35,7 @@ const Navbar = ({ toggleLeftbar, showLeftbar }) => {
   const logout = async () => {
     setLoggingOut(true);
     // Delete userId and token from cookies
-    cookies.remove("userId");
-    cookies.remove("token");
+    localStorage.removeItem("userData");
 
     setLoggingOut(false);
     // Reload the page

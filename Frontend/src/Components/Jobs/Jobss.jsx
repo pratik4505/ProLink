@@ -6,7 +6,7 @@ import { FaSearchPlus } from "react-icons/fa";
 import { IoMdSearch } from "react-icons/io";
 import { FaSearch } from "react-icons/fa";
 import "./jobss.scss";
-
+import {API} from  "../../utils/api";
 import AllJob from "./AllJob";
 import Currjob from "./Currjob";
 const jobToFetch = 5;
@@ -31,18 +31,16 @@ export default function Jobss() {
     const limit = jobToFetch;
 
     try {
-      const response = await fetch(
-        `${baseUrl}/jobs/getJobs?skip=${skip}&limit=${limit}`,
-        {
-          credentials: "include",
-        }
+      const response = await API.get(
+        `/jobs/getJobs?skip=${skip}&limit=${limit}`
+        
       );
 
-      if (!response.ok) {
+      if (!(response.status >= 200 && response.status < 300)) {
         throw new Error("Server Error");
       }
 
-      const { jobOpenings, moreDocuments } = await response.json();
+      const { jobOpenings, moreDocuments } =  response.data;
      
       setJobsData((prevData) => [...prevData, ...jobOpenings]);
       setLoadMore(moreDocuments);
@@ -58,19 +56,17 @@ export default function Jobss() {
         location,
         industry,
         company,
-
+        skip :jobsData.length,
         limit: jobToFetch,
         lastId: jobsData.length > 0 ? jobsData[jobsData.length - 1]._id : "NA",
       });
 
-      const response = await fetch(
-        `${baseUrl}/jobs/getJobSearch?${queryParams}`,
-        {
-          credentials: "include",
-        }
+      const response = await API.get(
+        `/jobs/getJobSearch?${queryParams}`
+        
       );
-      if (response.ok) {
-        const data = await response.json();
+      if (response.status >= 200 && response.status < 300) {
+        const data = response.data;
 
         setJobsData((prevJobs) => [...prevJobs, ...data.jobOpenings]);
         setLoadMore(data.moreDocuments);

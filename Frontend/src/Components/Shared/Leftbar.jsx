@@ -6,12 +6,12 @@ import { MdPeopleOutline } from "react-icons/md";
 import { BiMessageDetail } from "react-icons/bi";
 import { IoIosNotificationsOutline } from "react-icons/io";
 import { BiUserCircle } from "react-icons/bi";
-import { AiOutlineTrophy } from 'react-icons/ai';
-import { Cookies } from "react-cookie";
+// import { AiOutlineTrophy } from 'react-icons/ai';
+
 
 const Leftbar = () => {
-  const cookies = new Cookies();
-  const ownerId = cookies.get("userId");
+ 
+  const ownerId = JSON.parse(localStorage.getItem('userData')).userId;
 
   return (
     <div  className="hidden md:block  bg-white fixed top-20 pt-5 h-[85vh] rounded-md border w-[20%]">
@@ -34,13 +34,13 @@ const Leftbar = () => {
           </Link>
 
 
-          <Link
+          {/* <Link
             className="flex items-center gap-2 text-lg font-medium hover:text-primary"
             to="/Jobs"
           >
             <AiOutlineTrophy size={24} className="text-xl" />
             <p>Challenges</p>
-          </Link>
+          </Link> */}
 
           <Link
             className="flex items-center gap-2 text-lg font-medium hover:text-primary"

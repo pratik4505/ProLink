@@ -7,7 +7,7 @@ import { FaRegThumbsUp } from "react-icons/fa";
 import { FaHandsClapping } from "react-icons/fa6";
 import { FaLightbulb } from "react-icons/fa";
 import { FaHeart } from "react-icons/fa";
-
+import { API } from "../../utils/api";
 const baseUrl = import.meta.env.VITE_SERVER_URL;
 
 const formatDate = (dateString) => {
@@ -51,20 +51,18 @@ const Post = (props) => {
         likeType: likeType,
       }));
 
-      const response = await fetch(
-        `${baseUrl}/post/like?postId=${postId}&likeType=${likeType}`,
+      const response = await API.post(
+        `/post/like?postId=${postId}&likeType=${likeType}`,{},
         {
-          method: "POST",
-          credentials: "include",
+          
           headers: {
             "Content-Type": "application/json",
-          },
+          }
 
-          body: JSON.stringify({}),
         }
       );
 
-      if (!response.ok) {
+      if (response.status!==200) {
         throw new Error("Failed to update like");
       }
     } catch (error) {
@@ -74,11 +72,10 @@ const Post = (props) => {
 
   const unlikeHandler = async () => {
     try {
-      const response = await fetch(`${baseUrl}/postUnlike/${postData._id}`, {
-        credentials: "include"
-      });
+      const response = await API.get(`/postUnlike/${postData._id}`
+      );
 
-      if (!response.ok) {
+      if (response.status!==204) {
         console.log(response);
         throw new Error("Failed to update unlike");
       }

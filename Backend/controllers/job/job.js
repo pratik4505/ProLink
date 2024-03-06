@@ -28,7 +28,7 @@ exports.getJobs = async (req, res) => {
 
 exports.getJobSearch = async (req, res) => {
   try {
-    const { jobTitle, industry, location, company, limit, lastId } = req.query;
+    const { jobTitle, industry, location, company, limit, lastId ,skip} = req.query;
 
     const query = {};
     if(lastId!=='NA') query._id = lastId;

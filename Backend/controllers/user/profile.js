@@ -326,7 +326,7 @@ exports.deleteSkill = async (req, res) => {
     res.status(500).json({ message: "Internal server error" });
   }
 };
-
+ 
 exports.endorse = async (req, res) => {
   try {
     const userId = req.userId; // Assuming you have middleware to extract user ID from the token

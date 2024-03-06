@@ -1,27 +1,26 @@
-import React, { useState,useContext } from 'react';
+import React, { useState, useContext } from "react";
 import { Navigate, useNavigate } from "react-router-dom";
+import { API } from "../../utils/api";
+import { FaGoogle } from "react-icons/fa";
+import { AiOutlineUser } from "react-icons/ai";
+import { BsKey } from "react-icons/bs";
+import { Link } from "react-router-dom";
 
-import { FaGoogle } from 'react-icons/fa';
-import { AiOutlineUser } from 'react-icons/ai';
-import {BsKey} from 'react-icons/bs';
-import { Link } from 'react-router-dom';
+import GlobalContext from "../../context/GlobalContext";
 
-import GlobalContext from '../../context/GlobalContext';
-
-import '../../sass/styling.scss';
-
+import "../../sass/styling.scss";
 
 const baseUrl = import.meta.env.VITE_SERVER_URL;
 export default function LoginComponent() {
-  const gloContext=useContext(GlobalContext);
+  const gloContext = useContext(GlobalContext);
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
-    email: '',
-    password: '',
+    email: "",
+    password: "",
   });
   const [loading, setLoading] = useState(false);
-  const [responseMessage, setResponseMessage] = useState('');
-  
+  const [responseMessage, setResponseMessage] = useState("");
+
   const change = (e) => {
     setFormData({
       ...formData,
@@ -29,41 +28,31 @@ export default function LoginComponent() {
     });
   };
 
-  const googleLoginHandler=async ()=>{
-   
-    window.open('http://localhost:3000/auth/google',"_self");
-    
-    
-  }
+  const googleLoginHandler = async () => {
+    window.open("http://localhost:3000/auth/google", "_self");
+  };
 
   const handleLogin = async () => {
     setLoading(true);
     try {
-      
-      const response = await  fetch(`${baseUrl}/login`, {
-        method: 'POST',
-        credentials: 'include',
+      const response = await API.post(`/login`, formData,{
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
-        body: JSON.stringify(formData),
-      });
-      
-      const data = await response.json();
-      if (response.ok) {
-        
-          gloContext.initialLoad();
-         // navigate('/')
+      } );
+
+      console.log(response);
+      if (response.status===200) {
+        localStorage.setItem("userData", JSON.stringify(response.data));
+        gloContext.initialLoad();
+        // navigate('/')
         return <Navigate to="/" />;
-        
-       
-      } else {    
-        
-        setResponseMessage(data.message);
+      } else {
+        setResponseMessage(response.data.message);
       }
     } catch (error) {
-      console.error('Error during login:', error);
-      setResponseMessage('An error occurred during login.');
+      console.error("Error during login:", error);
+      setResponseMessage("An error occurred during login.");
     } finally {
       setLoading(false);
     }
@@ -73,7 +62,7 @@ export default function LoginComponent() {
     <div className="container">
       <div className="form-box">
         <h1>Log in</h1>
-        
+
         <div className="input-group">
           <div className="input-field">
             <AiOutlineUser className="react-icons" />
@@ -106,14 +95,18 @@ export default function LoginComponent() {
                 Log in
               </div>
             )}
-             <div className="submitG" onClick={googleLoginHandler}>Log in with Google</div>
-           
+            <div className="submitG" onClick={googleLoginHandler}>
+              Log in with Google
+            </div>
           </div>
-          <div className="register" >
+          <div className="register">
             Don't have an account? <Link to="/Register">Register</Link>
           </div>
-             
-              <a href={`${baseUrl}/auth/google`}> <FaGoogle/> Sign-in with Google</a>
+
+          <a href={`${baseUrl}/auth/google`}>
+            {" "}
+            <FaGoogle /> Sign-in with Google
+          </a>
         </div>
       </div>
       {responseMessage && (

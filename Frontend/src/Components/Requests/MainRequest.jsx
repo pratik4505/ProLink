@@ -4,6 +4,7 @@ import axios from "axios";
 import RequestItem from "./RequestItem";
 import FallbackLoading from "../loader/FallbackLoading";
 import GlobalContext from "../../context/GlobalContext";
+import {API} from "../../utils/api"
 const baseUrl = import.meta.env.VITE_SERVER_URL;
 
 const MainRequest = () => {
@@ -15,15 +16,12 @@ const MainRequest = () => {
   const handleRequest = useCallback(async (mkey, request, action) => {
     try {
       // Send post request to handleRequest endpoint
-      await axios.post(
-        `${baseUrl}/request/handleRequest`,
+      await API.post(
+        `/request/handleRequest`,
         {
           mkey,
           request,
           action,
-        },
-        {
-          withCredentials: true, // Set this option to send credentials (cookies) with the request
         }
       );
 
@@ -50,9 +48,7 @@ const MainRequest = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`${baseUrl}/request/getRequests/`, {
-          withCredentials: true,
-        });
+        const response = await API.get(`/request/getRequests/`);
 
         gloContext.setRequests(response.data);
         setLoading(false);

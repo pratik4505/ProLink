@@ -1,5 +1,6 @@
 import GlobalContext from "../../context/GlobalContext";
 import Post from "./Post";
+import { API } from "../../utils/api";
 import { useState, useEffect,useContext } from "react";
 import FallbackLoading from "../loader/FallbackLoading";
 const baseUrl = import.meta.env.VITE_SERVER_URL;
@@ -15,15 +16,12 @@ export default function Feeds() {
     try {
       gloContext.setFeedsData([...gloContext.feedsData, ...gloContext.tempData]);
       setLoadMore(false);
-      const response = await fetch(
-        `${baseUrl}/getFeeds?limit=${postPerPage}&afterDate=${
+      const response = await API.get(
+        `/getFeeds?limit=${postPerPage}&afterDate=${
           gloContext.tempData[gloContext.tempData.length - 1].createdAt
-        }`,
-        {
-          credentials: 'include',
-        }
+        }`
       );
-      const newData = await response.json();
+      const newData = response.data;
 
       gloContext.setTempData(newData);
       if (newData.length > 0) {
@@ -37,26 +35,21 @@ export default function Feeds() {
   const initialLoad = async () => {
     try {
       
-      const response1 = await fetch(
-        `${baseUrl}/getFeeds?limit=${postPerPage}&afterDate=${new Date().toISOString()}`,
-        {
-          credentials: 'include',
-        }
+      const response1 = await API.get(
+        `/getFeeds?limit=${postPerPage}&afterDate=${new Date().toISOString()}`,
+       
       );
-      if (response1.ok) {
-        const postResponse1 = await response1.json();
+      if (response1.status===200) {
+        const postResponse1 = response1.data;
        
         if (postResponse1.length > 0) {
           gloContext.setFeedsData(postResponse1);
-          const response2 = await fetch(
-            `${baseUrl}/getFeeds?limit=${postPerPage}&afterDate=${
+          const response2 = await API.get(
+            `/getFeeds?limit=${postPerPage}&afterDate=${
               postResponse1[postResponse1.length - 1].createdAt
-            }`,
-            {credentials: 'include',
-              
-            }
+            }`
           );
-          const postResponse2 = await response2.json();
+          const postResponse2 = response2.data;
           if (postResponse2.length > 0) {
             gloContext.setTempData(postResponse2);
             setLoadMore(true);

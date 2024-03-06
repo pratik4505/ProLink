@@ -6,7 +6,7 @@ import FallbackLoading from "../Components/loader/FallbackLoading";
 import { toast } from "react-toastify";
 import { Link } from "react-router-dom";
 import "react-toastify/dist/ReactToastify.css";
-
+import {API} from "../utils/api";
 import Peer from "peerjs";
 const baseUrl = import.meta.env.VITE_SERVER_URL;
 
@@ -76,20 +76,18 @@ export function GlobalProvider(props) {
   }, []);
 
   const initialLoad = useCallback(async () => {
-    const userId = cookies.get("userId");
-    const token = cookies.get("token");
-
+    const data=JSON.parse(localStorage.getItem('userData'));
+    const userId = data.userId;
+    const token = data.token;
+   
     if (token && userId) {
       try {
-        const response = await fetch(`${baseUrl}/isAuth`, {
-          method: "GET",
-          credentials: "include",
-        });
+        const response = await API.get(`/isAuth`);
 
-        if (response.ok) {
-          const res = await response.json();
+        if (response.status === 200) {
+         
 
-          setUserData({ ...res.userData });
+          setUserData({ ...response.data.userData });
           setIsLoggedIn(true);
           socket.emit("setup", userId);
           listen();

@@ -45,7 +45,7 @@ exports.addPost=async (req, res) => {
       const user = await User.findByIdAndUpdate(ownerId, {
         $push: { posts: savedPost._id },
       });
-
+ 
       return res.status(200).json({ message: 'Post added successfully' });
     } else if (type === 'company') {
       // Update the company's posts array
@@ -292,7 +292,7 @@ exports.postLike =async (req, res) =>  {
       
     );
 
-    res.json(updatedPost);
+    res.status(200).json(updatedPost);
   } catch (error) {
     console.error('Error updating like:', error);
     res.status(500).json({ error: 'Internal Server Error' });

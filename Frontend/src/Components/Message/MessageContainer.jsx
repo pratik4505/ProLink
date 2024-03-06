@@ -9,6 +9,7 @@ import { MdVideoCall } from "react-icons/md";
 import { IoIosArrowBack } from "react-icons/io";
 import { IoIosSend } from "react-icons/io";
 import { FaRegUser } from "react-icons/fa";
+import {API} from "../../utils/api"
 const msgPerLoad = 50;
 let cookies;
 let myId;
@@ -27,15 +28,13 @@ export default function MessageContainer(props) {
       const createdAt =
         messages.length > 0 ? messages[0].createdAt : new Date();
 
-      const response = await fetch(
-        `${baseUrl}/message/getMessages?limit=${limit}&chatId=${chatId}&createdAt=${createdAt}`,
-        {
-          credentials: "include",
-        }
+      const response = await API.get(
+        `/message/getMessages?limit=${limit}&chatId=${chatId}&createdAt=${createdAt}`
+        
       );
 
-      if (response.ok) {
-        const data = await response.json();
+      if (response.status===200) {
+        const data = await response.data;
 
         // If the response is not empty, update the messages array
         if (data.length > 0) {
@@ -109,19 +108,14 @@ export default function MessageContainer(props) {
     };
 
     try {
-      const response = await fetch(
-        `${baseUrl}/message/postMessage`,
-        {
-          method: "POST",
-          credentials: "include",
-          body: JSON.stringify(data),
-          headers: {
-            "Content-Type": "application/json",
-          },
+      const response = await API.post(
+        `/message/postMessage`, data, {headers:{
+          "Content-Type": "application/json",
         }
-      );
+      }
+      ); 
 
-      if (!response.ok) {
+      if (response===500) {
         console.error("Failed to save message to the server");
       }
     } catch (error) {

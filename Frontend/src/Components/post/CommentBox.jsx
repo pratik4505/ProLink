@@ -1,28 +1,18 @@
-import  { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import "./commentBox.scss";
-
+import { API } from "../../utils/api";
 import Comment from "./Comment";
 
-const baseUrl = import.meta.env.VITE_SERVER_URL;
+
 const CommentBox = (props) => {
   const [newComment, setNewComment] = useState("");
   const [commentsData, setCommentsData] = useState([]);
 
   const fetchComments = async () => {
     try {
-     
-      const response = await fetch(
-        `${baseUrl}/post/getComments/${props.postId}`,
-       
-        {  credentials: 'include',
-          headers: {
-            "Content-Type": "application/json",
-           
-          },
-        }
-      );
-      if (response.ok) {
-        const data = await response.json();
+      const response = await API.get(`/post/getComments/${props.postId}`);
+      if (response.status === 200) {
+        const data = await response.data;
         setCommentsData(data.comments);
       }
     } catch (error) {
@@ -31,7 +21,6 @@ const CommentBox = (props) => {
   };
 
   useEffect(() => {
-   
     fetchComments();
   }, []);
 
@@ -42,18 +31,14 @@ const CommentBox = (props) => {
         postID: props.postId,
       };
 
-      const response = await fetch(`${baseUrl}/post/addComment`, {
-        method: "POST",
-        credentials: 'include',
+      const response = await API.post(`/post/addComment`, newCommentData, {
         headers: {
           "Content-Type": "application/json",
-          
         },
-        body: JSON.stringify(newCommentData),
       });
 
-      if (response.ok) {
-        const newComment = await response.json();
+      if (response.status===201) {
+        const newComment = response.data;
 
         setCommentsData((prevCommentsData) => [
           newComment,
@@ -62,7 +47,7 @@ const CommentBox = (props) => {
 
         setNewComment("");
       } else {
-        console.error("Error adding comment:", response.statusText);
+        console.error("Error adding comment:", response.status);
       }
     } catch (error) {
       console.error("Error adding comment:", error);
@@ -74,17 +59,16 @@ const CommentBox = (props) => {
     const commentIndex = commentsData.findIndex(
       (comment) => comment._id === newCommentData._id
     );
-  
+
     if (commentIndex !== -1) {
       // Replace the old comment with the new comment data
       commentsData[commentIndex] = newCommentData;
       setCommentsData([...commentsData]);
     }
   };
-  
 
   return (
-    <div  className="main_commentBox" >
+    <div className="main_commentBox">
       <div className="comment-input">
         <input
           type="text"
@@ -92,7 +76,9 @@ const CommentBox = (props) => {
           value={newComment}
           onChange={(e) => setNewComment(e.target.value)}
         />
-        <button onClick={newCommentHandler} className="AddComment-btn">Add Comment</button>
+        <button onClick={newCommentHandler} className="AddComment-btn">
+          Add Comment
+        </button>
       </div>
 
       <div className="comments">
