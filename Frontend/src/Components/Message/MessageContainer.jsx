@@ -12,17 +12,17 @@ import { FaRegUser } from "react-icons/fa";
 import { API } from "../../utils/api";
 const msgPerLoad = 50;
 
-let myId;
+
 
 export default function MessageContainer(props) {
   const [messages, setMessages] = useState([]);
   const [loadMore, setLoadMore] = useState(false);
   const [currMsg, setCurrMsg] = useState("");
-  const data = JSON.parse(localStorage.getItem("userData"));
-  const myId = data.userId;
+  
+  
 
   const gloContext = useContext(GlobalContext);
-
+  const myId = gloContext.userData.userId;
   const messageLoader = async () => {
     try {
       const limit = msgPerLoad;
