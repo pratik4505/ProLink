@@ -42,13 +42,12 @@ function VideoCall() {
   };
 
   const callHandler = async (call) => {
-    console.log("call handler",call)
+    console.log("call handler", call);
     setMediaCall(call);
     const stream = await navigator.mediaDevices.getUserMedia({
       audio: true,
       video: true,
     });
-    
 
     myVideo.current.srcObject = stream;
 
@@ -152,11 +151,9 @@ function VideoCall() {
     }
   }, [fromCallData]);
 
- 
-
   const answerCall = () => {
     setConnecting(false);
-    console.log("answercall",myVideo, userVideo);
+    console.log("answercall", myVideo, userVideo);
     // gloContext.peer.on("call", callHandler);
   };
 
@@ -180,7 +177,7 @@ function VideoCall() {
         tracks.forEach((track) => track.stop());
       }
     }
-    gloContext.peer.off("call", callHandler);
+    gloContext.peer?.off("call", callHandler);
 
     gloContext.setToCallData(null);
     setFromCallData(null);
@@ -200,21 +197,37 @@ function VideoCall() {
         leaveTo="opacity-0 scale-50"
       >
         {() => (
-          <div ref={videoDiaglogRef} className="border-black border-2 absolute right-1/4 top-14 z-50 w-[90vw] h-[90vh] sm:w-[70vw] sm:h-[80vh] bg-opacity-80 backdrop-blur-md px-2 py-3 bg-white flex flex-col items-end">
-          <div className="border-black border-2 w-full h-[98%] relative">
-           {connecting&&<FallbackLoading/>}
-            <video playsInline ref={userVideo} autoPlay className=" w-full h-full object-cover" />
-            
-            <video playsInline muted ref={myVideo} autoPlay className=" absolute bottom-2 right-2 h-[10%] md:h-[30%]" />
-            
+          <div
+            ref={videoDiaglogRef}
+            className="border-black border-2 absolute right-1/4 top-14 z-50 w-[90vw] h-[90vh] sm:w-[70vw] sm:h-[80vh] bg-opacity-80 backdrop-blur-md px-2 py-3 bg-white flex flex-col items-end"
+          >
+            <div className="border-black border-2 w-full h-[98%] relative">
+              {(connecting || !gloContext.peerConnected) && <FallbackLoading />}
+              {(connecting || !gloContext.peerConnected) && (
+                <video
+                  playsInline
+                  ref={userVideo}
+                  autoPlay
+                  className=" w-full h-full object-cover"
+                />
+              )}
+
+              <video
+                playsInline
+                muted
+                ref={myVideo}
+                autoPlay
+                className=" absolute bottom-2 right-2 h-[10%] md:h-[30%]"
+              />
+            </div>
+
+            <button
+              className="text-red-500 cursor-pointer  mx-auto"
+              onClick={endCall}
+            >
+              <FaPhoneSlash size={30} />
+            </button>
           </div>
-        
-          <button className="text-red-500 cursor-pointer  mx-auto" onClick={endCall}>
-            <FaPhoneSlash size={30} />
-          </button>
-        
-          
-        </div>
         )}
       </Transition>
     </>

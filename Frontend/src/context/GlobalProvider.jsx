@@ -29,20 +29,46 @@ export function GlobalProvider(props) {
   const [feedsData, setFeedsData] = useState([]);
   const [tempData, setTempData] = useState([]);
   const [toCallData, setToCallData] = useState(null);
-
+  const [peerConnected, setPeerConnected] = useState(false);
   const [peer, setPeer] = useState(null);
 
 
   useEffect(() => {
-    if (userData) {
-      const tempPeer = new Peer(userData.userId);
-
-      setPeer(tempPeer);
+    let tempPeer;
+  
+    const initializePeer = () => {
+      tempPeer = new Peer(userData.userId);
+      
       tempPeer.on("open", (id) => {
         console.log("Peer connected", id);
+        setPeerConnected(true);
       });
+  
+      tempPeer.on("disconnected", () => {
+        console.log("Peer disconnected, retrying connection...");
+        setPeerConnected(false);
+        setTimeout(initializePeer, 1000); // Retry connection after 1 second
+      });
+  
+      tempPeer.on("error", (error) => {
+        tempPeer.disconnect(); // Disconnect the peer
+        setTimeout(initializePeer, 5000); // Retry connection after 1 second
+      });
+  
+      setPeer(tempPeer);
+    };
+  
+    if (userData) {
+      initializePeer();
     }
+  
+    return () => {
+      if (tempPeer) {
+        tempPeer.destroy(); // Cleanup Peer instance on component unmount
+      }
+    };
   }, [userData]);
+  
 
   const setMessageStatus = (value) => {
     setIsMessageOpen(value);
@@ -207,6 +233,7 @@ export function GlobalProvider(props) {
     tempData,
     setTempData,
     peer,
+    peerConnected
   };
 
   if (globalLoading) {

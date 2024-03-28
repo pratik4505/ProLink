@@ -28,7 +28,7 @@ const Navbar = ({ toggleLeftbar, showLeftbar }) => {
   const handleProfileClick = () => {
     setShowDropdown(!showDropdown);
   };
-  console.log(gloContext.userData);
+  
   const handleNotificationClick = () => {
     setShowNotifications(!showNotifications);
   };
