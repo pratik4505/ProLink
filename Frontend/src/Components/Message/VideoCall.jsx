@@ -41,11 +41,13 @@ function VideoCall() {
   };
 
   const callHandler = async (call) => {
+    console.log("call handler")
     setMediaCall(call);
     const stream = await navigator.mediaDevices.getUserMedia({
       audio: true,
       video: true,
     });
+    
 
     myVideo.current.srcObject = stream;
 
@@ -98,8 +100,8 @@ function VideoCall() {
         }
       );
     };
-    gloContext.socket.on("incomingCall", incomingHandler);
-
+    gloContext.socket?.on("incomingCall", incomingHandler);
+    gloContext.peer?.on("call", callHandler);
     // Cleanup function to stop the media stream when the component unmounts or dependencies change
 
     return () => {
@@ -152,8 +154,8 @@ function VideoCall() {
 
   const answerCall = () => {
     setConnecting(false);
-    console.log(myVideo, userVideo);
-    gloContext.peer.on("call", callHandler);
+    console.log("answercall",myVideo, userVideo);
+    // gloContext.peer.on("call", callHandler);
   };
 
   const endCall = () => {

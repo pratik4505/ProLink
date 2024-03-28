@@ -144,6 +144,7 @@ exports.runIO = (io) => {
 
 
     socket.on("answerCall", (data) => {
+      console.log(data.to)
       io.to(data.to).emit("isCallAccepted", {isAccepted:data.isAccepted });
     })
 
