@@ -97,7 +97,7 @@ exports.runIO = (io) => {
           title:  data.userData.userName, 
           description: `accepted your ${data.requestType}`,
           userId: data.to.toString(),
-          byId: data.userData._id.toString(),
+          byId: data.userData.userId.toString(),
         });
     
         await newNotification.save();
@@ -130,7 +130,7 @@ exports.runIO = (io) => {
 
     socket.on("joinChat", (data) => {
       socket.join(data.chatId);
-      if (data.otherId !== data.userData._id) {
+      if (data.otherId !== data.userData.userId) {
         // console.log("clientJoinChat")
         socket.to(data.otherId).emit("clientJoinChat", data);
       }

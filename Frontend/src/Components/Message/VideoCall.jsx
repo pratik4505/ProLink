@@ -25,7 +25,7 @@ function VideoCall() {
     //console.log(temp, gloContext.peer);
     gloContext.socket.emit("answerCall", {
       isAccepted: true,
-      to: data.userData._id,
+      to: data.userData.userId,
     });
     setVideoDiaglog(true);
     setFromCallData(data);
@@ -35,7 +35,7 @@ function VideoCall() {
   const handleDeclineCall = (data) => {
     gloContext.socket.emit("answerCall", {
       isAccepted: false,
-      to: data.userData._id,
+      to: data.userData.userId,
     });
     toast.dismiss();
   };

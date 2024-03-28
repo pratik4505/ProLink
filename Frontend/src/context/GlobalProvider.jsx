@@ -35,7 +35,7 @@ export function GlobalProvider(props) {
 
   useEffect(() => {
     if (userData) {
-      const tempPeer = new Peer(userData._id);
+      const tempPeer = new Peer(userData.userId);
 
       setPeer(tempPeer);
       tempPeer.on("open", (id) => {
@@ -87,7 +87,7 @@ export function GlobalProvider(props) {
           if (response.status === 200) {
            
   
-            setUserData({ ...response.data.userData });
+            setUserData(JSON.parse(localStorage.getItem('userData')));
             setIsLoggedIn(true);
             socket.emit("setup", userId);
             listen();
@@ -196,6 +196,7 @@ export function GlobalProvider(props) {
     notifications,
     setNotifications,
     userData,
+    setUserData,
     requests,
     setRequests,
     feedsData,

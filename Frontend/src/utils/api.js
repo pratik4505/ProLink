@@ -7,7 +7,7 @@ const authInterceptor = (config) => {
  
   if (userDataString) {
     const userData = JSON.parse(userDataString);
-    const accessToken = userData.token;
+    const accessToken = userData?.token;
     if (accessToken) {
       config.headers.Authorization = `Bearer ${accessToken}`;
     }

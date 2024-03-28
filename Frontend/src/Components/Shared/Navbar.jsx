@@ -19,11 +19,12 @@ const Navbar = ({ toggleLeftbar, showLeftbar }) => {
   const [showDropdown, setShowDropdown] = useState(false);
   const [showNotifications, setShowNotifications] = useState(false); // New state for notifications
  
-  const ownerId = JSON.parse(localStorage.getItem('userData')).userId;
+  
   const gloContext = useContext(GlobalContext);
   const dropdownRef = useRef(null);
   const notificationButtonRef = useRef(null); // Ref for the notification button
   const baseUrl = import.meta.env.VITE_BASE_URL;
+  const ownerId = gloContext.userData?.userId;
   const handleProfileClick = () => {
     setShowDropdown(!showDropdown);
   };
