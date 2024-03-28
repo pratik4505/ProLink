@@ -1,7 +1,7 @@
 import { useEffect, useState, useCallback } from "react";
 import GlobalContext from "./GlobalContext";
 import io from "socket.io-client";
-import { Cookies } from "react-cookie";
+
 import FallbackLoading from "../Components/loader/FallbackLoading";
 import { toast } from "react-toastify";
 import { Link } from "react-router-dom";
@@ -32,7 +32,6 @@ export function GlobalProvider(props) {
 
   const [peer, setPeer] = useState(null);
 
-  const cookies = new Cookies();
 
   useEffect(() => {
     if (userData) {
@@ -184,11 +183,7 @@ export function GlobalProvider(props) {
       socket.emit("joinChat", data);
     });
 
-    socket.on("receiveMessage", (data) => {
-      if (!isMessageOpen) {
-        //notify
-      }
-    });
+   
   };
 
   const context = {

@@ -69,7 +69,7 @@ exports.getMessages = async (req, res) => {
 exports.postMessage = async (req, res) => {
   try {
     const { senderId, chatId, message } = req.body;
-    console.log("Posting message");
+    console.log("Posting message",senderId, chatId, message);
     // Create a new message document
     const newMessage = new Message({
       senderId,

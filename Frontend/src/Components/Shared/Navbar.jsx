@@ -34,7 +34,7 @@ const Navbar = ({ toggleLeftbar, showLeftbar }) => {
 
   const logout = async () => {
     setLoggingOut(true);
-    // Delete userId and token from cookies
+    
     localStorage.removeItem("userData");
 
     setLoggingOut(false);
