@@ -4,7 +4,8 @@ import axios from 'axios';
 import GlobalContext from "../context/GlobalContext";
 import Post from "../Components/post/Post";
 import FallbackLoading from "../Components/loader/FallbackLoading";
-const baseUrl = import.meta.env.VITE_SERVER_URL;
+import {API}  from "../utils/api";
+
 export default function Home() {
   const [post, setPost] = useState(null); // Initialize post as null
   const { postId } = useParams();
@@ -14,9 +15,8 @@ export default function Home() {
     const fetchPostData = async () => {
       try {
         // Assuming you have credentials set in your axios configuration
-        const response = await axios.get(`${baseUrl}/getPost/${postId}`, {
-          withCredentials: true,
-        });
+        const response = await API.get(`/getPost/${postId}`
+       );
         setPost(response.data);
       } catch (error) {
         console.error("Error fetching post data:", error);

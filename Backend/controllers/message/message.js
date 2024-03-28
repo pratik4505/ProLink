@@ -51,10 +51,10 @@ exports.getMessages = async (req, res) => {
     // Find messages based on chatId and createdAt
     const messages = await Message.find({
       chatId: new mongoose.Types.ObjectId(chatId),
-      createdAt: { $lt: createdAt },
+      // createdAt: { $lt: createdAt },
     })
       .sort({ createdAt: -1 }) // Sort in descending order based on createdAt
-      .limit(limit);
+      // .limit(limit);
 
       
     const revMessages = messages.reverse();
