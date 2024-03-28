@@ -47,7 +47,7 @@ export function GlobalProvider(props) {
       tempPeer.on("disconnected", () => {
         console.log("Peer disconnected, retrying connection...");
         setPeerConnected(false);
-        setTimeout(initializePeer, 1000); // Retry connection after 1 second
+        setTimeout(initializePeer, 2000); // Retry connection after 1 second
       });
   
       tempPeer.on("error", (error) => {

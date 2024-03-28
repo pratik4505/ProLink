@@ -162,7 +162,7 @@ function VideoCall() {
       mediaCall.close();
       setMediaCall(null);
     }
-
+    console.log("endcall")
     if (myVideo.current) {
       const stream = myVideo.current.srcObject;
       if (stream) {
@@ -201,16 +201,16 @@ function VideoCall() {
             ref={videoDiaglogRef}
             className="border-black border-2 absolute right-1/4 top-14 z-50 w-[90vw] h-[90vh] sm:w-[70vw] sm:h-[80vh] bg-opacity-80 backdrop-blur-md px-2 py-3 bg-white flex flex-col items-end"
           >
-            <div className="border-black border-2 w-full h-[98%] relative">
+            <div className="border-black border-2 w-full h-[96%] relative">
               {(connecting || !gloContext.peerConnected) && <FallbackLoading />}
-              {(connecting || !gloContext.peerConnected) && (
+              
                 <video
                   playsInline
                   ref={userVideo}
                   autoPlay
                   className=" w-full h-full object-cover"
                 />
-              )}
+              
 
               <video
                 playsInline
@@ -222,7 +222,7 @@ function VideoCall() {
             </div>
 
             <button
-              className="text-red-500 cursor-pointer  mx-auto"
+              className="text-red-500 cursor-pointer  mx-auto z-10"
               onClick={endCall}
             >
               <FaPhoneSlash size={30} />
