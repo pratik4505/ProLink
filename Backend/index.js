@@ -68,24 +68,25 @@ const upload = multer({ storage: storage, fileFilter: fileFilter }).fields([
 app.use(helmet());
 
 const allowedOrigins = process.env.NODE_ENV === 'production' ? process.env.PRODUCTION_ORIGIN : 'http://localhost:5173';
-app.use(
-  cors({
-    origin: (origin, callback) => {
-      if ( process.env.NODE_ENV === 'production') {
-        if (!origin || allowedOrigins===origin) {
-          callback(null, true);
-        } else {
-          callback(new Error(`${origin} not allowed by cors`));
-        }
-      } else {
-        callback(null, true);
-      }
-    },
-    optionsSuccessStatus: 200,
-    credentials: true,
-    methods: ['GET', 'POST', 'PUT', 'DELETE'],
-  }),
-);
+// app.use(
+//   cors({
+//     origin: (origin, callback) => {
+//       if ( process.env.NODE_ENV === 'production') {
+//         if (!origin || allowedOrigins===origin) {
+//           callback(null, true);
+//         } else {
+//           callback(new Error(`${origin} not allowed by cors`));
+//         }
+//       } else {
+//         callback(null, true);
+//       }
+//     },
+//     optionsSuccessStatus: 200,
+//     credentials: true,
+//     methods: ['GET', 'POST', 'PUT', 'DELETE'],
+//   }),
+// );
+app.use(cors());
 
 
 

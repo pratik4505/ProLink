@@ -58,7 +58,7 @@ exports.getMessages = async (req, res) => {
 
       
     const revMessages = messages.reverse();
-
+    console.log(revMessages)
     res.status(200).json(revMessages);
   } catch (error) {
     console.error("Error fetching messages:", error);
