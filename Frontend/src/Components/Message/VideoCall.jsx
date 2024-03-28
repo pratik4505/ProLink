@@ -8,6 +8,7 @@ import { IoMdCall, IoMdClose } from "react-icons/io";
 
 import global from "global";
 import * as process from "process";
+import FallbackLoading from "../loader/FallbackLoading";
 global.process = process;
 
 function VideoCall() {
@@ -41,7 +42,7 @@ function VideoCall() {
   };
 
   const callHandler = async (call) => {
-    console.log("call handler")
+    console.log("call handler",call)
     setMediaCall(call);
     const stream = await navigator.mediaDevices.getUserMedia({
       audio: true,
@@ -63,6 +64,30 @@ function VideoCall() {
 
     call.on("error", (err) => {
       console.error(err);
+    });
+  };
+  const callUser = async (id) => {
+    gloContext.socket.emit("callUser", {
+      userToCall: id,
+      userData: gloContext.userData,
+    });
+
+    const stream = await navigator.mediaDevices.getUserMedia({
+      audio: true,
+      video: true,
+    });
+
+    myVideo.current.srcObject = stream;
+
+    gloContext.socket.on("isCallAccepted", (data) => {
+      if (data.isAccepted === true) {
+        setConnecting(false);
+        const call = gloContext.peer.call(id, stream);
+        setMediaCall(call);
+        call.on("stream", (remoteStream) => {
+          userVideo.current.srcObject = remoteStream;
+        });
+      }
     });
   };
 
@@ -114,7 +139,7 @@ function VideoCall() {
       setUserData(gloContext.toCallData);
 
       setVideoDiaglog(true);
-      callUser(gloContext.toCallData._id);
+      callUser(gloContext.toCallData.userId);
     }
   }, [gloContext.toCallData]);
 
@@ -127,30 +152,7 @@ function VideoCall() {
     }
   }, [fromCallData]);
 
-  const callUser = async (id) => {
-    gloContext.socket.emit("callUser", {
-      userToCall: id,
-      userData: gloContext.userData,
-    });
-
-    const stream = await navigator.mediaDevices.getUserMedia({
-      audio: true,
-      video: true,
-    });
-
-    myVideo.current.srcObject = stream;
-
-    gloContext.socket.on("isCallAccepted", (data) => {
-      if (data.isAccepted === true) {
-        setConnecting(false);
-        const call = gloContext.peer.call(id, stream);
-        setMediaCall(call);
-        call.on("stream", (remoteStream) => {
-          userVideo.current.srcObject = remoteStream;
-        });
-      }
-    });
-  };
+ 
 
   const answerCall = () => {
     setConnecting(false);
@@ -200,7 +202,7 @@ function VideoCall() {
         {() => (
           <div ref={videoDiaglogRef} className="border-black border-2 absolute right-1/4 top-14 z-50 w-[90vw] h-[90vh] sm:w-[70vw] sm:h-[80vh] bg-opacity-80 backdrop-blur-md px-2 py-3 bg-white flex flex-col items-end">
           <div className="border-black border-2 w-full h-[98%] relative">
-           
+           {connecting&&<FallbackLoading/>}
             <video playsInline ref={userVideo} autoPlay className=" w-full h-full object-cover" />
             
             <video playsInline muted ref={myVideo} autoPlay className=" absolute bottom-2 right-2 h-[10%] md:h-[30%]" />

@@ -55,7 +55,7 @@ export default function MessageContainer(props) {
   const makeCall = useCallback(() => {
     if (!gloContext.toCallData && !gloContext.fromCallData)
       gloContext.setToCallData({
-        _id: props.data.otherMemberId,
+        userId: props.data.otherMemberId,
         imageUrl: props.data.otherMemberImageUrl,
         userName: props.data.otherMemberName,
       });
