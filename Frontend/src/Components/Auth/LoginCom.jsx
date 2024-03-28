@@ -44,6 +44,7 @@ export default function LoginComponent() {
       console.log(response);
       if (response.status===200) {
         localStorage.setItem("userData", JSON.stringify(response.data));
+        gloContext.setUserData(response.data);
         gloContext.initialLoad();
         // navigate('/')
         return <Navigate to="/" />;

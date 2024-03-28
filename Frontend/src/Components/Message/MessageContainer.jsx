@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useContext, useCallback } from "react";
 import "./messageContainer.scss";
 const baseUrl = import.meta.env.VITE_SERVER_URL;
-import { Cookies } from "react-cookie";
+
 import GlobalContext from "../../context/GlobalContext";
 import { v4 as uuidv4 } from "uuid";
 import ScrollToBottom from "react-scroll-to-bottom";
@@ -9,18 +9,20 @@ import { MdVideoCall } from "react-icons/md";
 import { IoIosArrowBack } from "react-icons/io";
 import { IoIosSend } from "react-icons/io";
 import { FaRegUser } from "react-icons/fa";
-import {API} from "../../utils/api"
+import { API } from "../../utils/api";
 const msgPerLoad = 50;
-let cookies;
-let myId;
+
+
 
 export default function MessageContainer(props) {
   const [messages, setMessages] = useState([]);
   const [loadMore, setLoadMore] = useState(false);
   const [currMsg, setCurrMsg] = useState("");
+  
+  
 
   const gloContext = useContext(GlobalContext);
-
+  const myId = gloContext.userData?.userId;
   const messageLoader = async () => {
     try {
       const limit = msgPerLoad;
@@ -30,10 +32,9 @@ export default function MessageContainer(props) {
 
       const response = await API.get(
         `/message/getMessages?limit=${limit}&chatId=${chatId}&createdAt=${createdAt}`
-        
       );
 
-      if (response.status===200) {
+      if (response.status === 200) {
         const data = await response.data;
 
         // If the response is not empty, update the messages array
@@ -61,8 +62,6 @@ export default function MessageContainer(props) {
   }, []);
 
   useEffect(() => {
-    cookies = new Cookies();
-    myId = cookies.get("userId");
     setMessages([]);
     messageLoader();
     gloContext.socket.on("receiveMessage", (data) => {
@@ -101,22 +100,24 @@ export default function MessageContainer(props) {
       createdAt: new Date(),
       userData: gloContext.userData,
     });
+
     const data = {
       senderId: myId,
       chatId: props.data.chatId,
       message: msg,
     };
-
+    console.log(data)
     try {
-      const response = await API.post(
-        `/message/postMessage`, data, {headers:{
+      const response = await API.post(`/message/postMessage`, data, {
+        headers: {
           "Content-Type": "application/json",
-        }
-      }
-      ); 
+        },
+      });
 
-      if (response===500) {
+      if (response.status === 500) {
         console.error("Failed to save message to the server");
+      }else{
+        console.log(response.data.message);
       }
     } catch (error) {
       console.error("An error occurred while posting the message:", error);
@@ -127,24 +128,26 @@ export default function MessageContainer(props) {
     <div className="  h-full w-full md:w-[70%] bg-white shadow-5xl">
       <div className="bg-primary-300 flex items-center h-[10%] justify-between px-[2%]  ">
         <div className="flex items-center justify-between">
-        <IoIosArrowBack
-          size={28}
-          color="#ffff"
-          onClick={() => props.closeContainer()}
-        />
-        {props.data.otherMemberImageUrl && (
-          <img
-            className="w-12 h-12 rounded-full"
-            src={`${baseUrl}/${props.data.otherMemberImageUrl}`}
-            alt=""
+          <IoIosArrowBack
+            size={28}
+            color="#ffff"
+            onClick={() => props.closeContainer()}
           />
-        )}
-        {!props.data.otherMemberImageUrl && (
-          <FaRegUser size={28} className="mx-2" />
-        )}
-        <h1 className="text-3xl ml-2 font-bold text-[#ffffff]">{props.data.otherMemberName}</h1>
+          {props.data.otherMemberImageUrl && (
+            <img
+              className="w-12 h-12 rounded-full"
+              src={`${baseUrl}/${props.data.otherMemberImageUrl}`}
+              alt=""
+            />
+          )}
+          {!props.data.otherMemberImageUrl && (
+            <FaRegUser size={28} className="mx-2" />
+          )}
+          <h1 className="text-3xl ml-2 font-bold text-[#ffffff]">
+            {props.data.otherMemberName}
+          </h1>
         </div>
-        
+
         <MdVideoCall onClick={makeCall} size={40} color="#ffff" />
       </div>
       <ScrollToBottom className="flex flex-col overflow-y-auto h-[80%] px-2">

@@ -1,7 +1,7 @@
 import { useEffect, useState, useCallback } from "react";
 import GlobalContext from "./GlobalContext";
 import io from "socket.io-client";
-import { Cookies } from "react-cookie";
+
 import FallbackLoading from "../Components/loader/FallbackLoading";
 import { toast } from "react-toastify";
 import { Link } from "react-router-dom";
@@ -32,11 +32,10 @@ export function GlobalProvider(props) {
 
   const [peer, setPeer] = useState(null);
 
-  const cookies = new Cookies();
 
   useEffect(() => {
     if (userData) {
-      const tempPeer = new Peer(userData._id);
+      const tempPeer = new Peer(userData.userId);
 
       setPeer(tempPeer);
       tempPeer.on("open", (id) => {
@@ -88,7 +87,7 @@ export function GlobalProvider(props) {
           if (response.status === 200) {
            
   
-            setUserData({ ...response.data.userData });
+            setUserData(JSON.parse(localStorage.getItem('userData')));
             setIsLoggedIn(true);
             socket.emit("setup", userId);
             listen();
@@ -137,7 +136,7 @@ export function GlobalProvider(props) {
         toast(
           <div>
             <Link
-              to={`/Profile/${cookies.get("userId")}`}
+              to={`/Profile/${JSON.parse(localStorage.getItem('userData'))?.userId}`}
               className="text-blue-500 "
             >
               <p>
@@ -184,11 +183,7 @@ export function GlobalProvider(props) {
       socket.emit("joinChat", data);
     });
 
-    socket.on("receiveMessage", (data) => {
-      if (!isMessageOpen) {
-        //notify
-      }
-    });
+   
   };
 
   const context = {
@@ -201,6 +196,7 @@ export function GlobalProvider(props) {
     notifications,
     setNotifications,
     userData,
+    setUserData,
     requests,
     setRequests,
     feedsData,
