@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useContext, useCallback } from "react";
 import "./messageContainer.scss";
 const baseUrl = import.meta.env.VITE_SERVER_URL;
-import { Cookies } from "react-cookie";
+
 import GlobalContext from "../../context/GlobalContext";
 import { v4 as uuidv4 } from "uuid";
 import ScrollToBottom from "react-scroll-to-bottom";
@@ -11,7 +11,7 @@ import { IoIosSend } from "react-icons/io";
 import { FaRegUser } from "react-icons/fa";
 import {API} from "../../utils/api"
 const msgPerLoad = 50;
-let cookies;
+
 let myId;
 
 export default function MessageContainer(props) {
@@ -61,8 +61,8 @@ export default function MessageContainer(props) {
   }, []);
 
   useEffect(() => {
-    cookies = new Cookies();
-    myId = cookies.get("userId");
+    const data=JSON.parse(localStorage.getItem('userData'));
+    myId = data.userId;
     setMessages([]);
     messageLoader();
     gloContext.socket.on("receiveMessage", (data) => {

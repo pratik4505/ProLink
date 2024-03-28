@@ -58,7 +58,7 @@ exports.getMessages = async (req, res) => {
 
       
     const revMessages = messages.reverse();
-    console.log(revMessages)
+    //console.log(revMessages)
     res.status(200).json(revMessages);
   } catch (error) {
     console.error("Error fetching messages:", error);
@@ -69,7 +69,7 @@ exports.getMessages = async (req, res) => {
 exports.postMessage = async (req, res) => {
   try {
     const { senderId, chatId, message } = req.body;
-    
+    console.log("Posting message");
     // Create a new message document
     const newMessage = new Message({
       senderId,

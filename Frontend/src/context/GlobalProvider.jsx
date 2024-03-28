@@ -137,7 +137,7 @@ export function GlobalProvider(props) {
         toast(
           <div>
             <Link
-              to={`/Profile/${cookies.get("userId")}`}
+              to={`/Profile/${JSON.parse(localStorage.getItem('userData'))?.userId}`}
               className="text-blue-500 "
             >
               <p>
